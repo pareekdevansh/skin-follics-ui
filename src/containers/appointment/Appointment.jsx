@@ -6,13 +6,15 @@ import {
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
+import { format, parse } from "date-fns";
+import AppointmentService from "../../services/api/appointmentService";
 
 const AppointmentBookingForm = () => {
 	const [formData, setFormData] = useState({
 		fullName: "",
-		email: "",
 		phone: "",
-		treatment: "",
+		treatmentCategory: "",
+		comment: "",
 		appointmentDate: new Date(),
 		appointmentTime: "",
 	});
@@ -22,7 +24,7 @@ const AppointmentBookingForm = () => {
 	const [timeSlotModalOpen, setTimeSlotModalOpen] = useState(false);
 	const [successDialogOpen, setSuccessDialogOpen] = useState(false);
 
-	const treatments = ["Acne Treatment", "Hair Transplant", "PRP Therapy", "Skin Rejuvenation", "Laser Hair Removal"];
+	const treatments = ["Skin", "Hair", "Anti Aging"];
 	const timeSlots = [
 		"11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM",
 		"12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM",
@@ -40,39 +42,53 @@ const AppointmentBookingForm = () => {
 	const validateForm = () => {
 		const newErrors = {};
 		if (!formData.fullName) newErrors.fullName = "Full name is required.";
-		if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email format.";
 		if (!formData.phone || formData.phone.length !== 10) newErrors.phone = "Phone number must be 10 digits.";
-		if (!formData.treatment) newErrors.treatment = "Please select a treatment.";
+		if (!formData.treatmentCategory) newErrors.treatmentCategory = "Please select a treatment category.";
 		if (!formData.appointmentDate) newErrors.appointmentDate = "Date is required.";
 		if (!formData.appointmentTime) newErrors.appointmentTime = "Time is required.";
 		setErrors(newErrors);
 		return Object.keys(newErrors).length === 0;
 	};
 
+	const appointmentService = new AppointmentService();
+
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		if (validateForm()) {
-			setLoading(true);
-			setTimeout(() => {
-				setLoading(false);
-				setSuccessDialogOpen(true);
-				setFormData({
-					fullName: "",
-					email: "",
-					phone: "",
-					treatment: "",
-					appointmentDate: new Date(),
-					appointmentTime: "",
-				});
-				setErrors({});
-			}, 2000);
-		}
-	};
+	
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+        setLoading(true);
+        try {
+            const formattedDate = format(formData.appointmentDate, "MM-dd-yyyy");
+            const form = {
+                ...formData,
+                appointmentDate: formattedDate,
+            };
+            console.log(JSON.stringify(form, null, 2));
+            const response = await appointmentService.createAppointment(form);
+            if (response) {
+                setSuccessDialogOpen(true);
+                setFormData({
+                    fullName: "",
+                    phone: "",
+                    treatmentCategory: "",
+                    comment: "",
+                    appointmentDate: new Date(),
+                    appointmentTime: "",
+                });
+                // TODO: Navigate to booked treatments page
+            }
+        } catch (error) {
+            console.error("Failed to create appointment:", error);
+        } finally {
+            setLoading(false);
+        }
+    }
+};
 
 	const openTimeSlotModal = () => setTimeSlotModalOpen(true);
 	const closeTimeSlotModal = () => setTimeSlotModalOpen(false);
@@ -105,20 +121,6 @@ const AppointmentBookingForm = () => {
 								/>
 							</Grid>
 
-							{/* Email */}
-							<Grid item xs={12}>
-								<TextField
-									label="Email"
-									name="email"
-									type="email"
-									value={formData.email}
-									onChange={handleInputChange}
-									error={!!errors.email}
-									helperText={errors.email}
-									fullWidth
-								/>
-							</Grid>
-
 							{/* Phone */}
 							<Grid item xs={12}>
 								<TextField
@@ -135,15 +137,15 @@ const AppointmentBookingForm = () => {
 								/>
 							</Grid>
 
-							{/* Treatment */}
+							{/* Treatment Category */}
 							<Grid item xs={12}>
 								<FormControl fullWidth>
-									<InputLabel>Choose Treatment</InputLabel>
+									<InputLabel>Treatment Category</InputLabel>
 									<Select
-										name="treatment"
-										value={formData.treatment}
+										name="treatmentCategory"
+										value={formData.treatmentCategory}
 										onChange={handleInputChange}
-										error={!!errors.treatment}
+										error={!!errors.treatmentCategory}
 									>
 										{treatments.map((treatment, index) => (
 											<MenuItem key={index} value={treatment}>
@@ -153,6 +155,19 @@ const AppointmentBookingForm = () => {
 									</Select>
 								</FormControl>
 								{errors.treatment && <Typography color="error">{errors.treatment}</Typography>}
+							</Grid>
+
+							{/* Comment */}
+							<Grid item xs={12}>
+								<TextField
+									label="Comment"
+									name="comment"
+									value={formData.comment}
+									onChange={handleInputChange}
+									error={!!errors.comment}
+									helperText={errors.comment}
+									fullWidth
+								/>
 							</Grid>
 
 							{/* Date */}
