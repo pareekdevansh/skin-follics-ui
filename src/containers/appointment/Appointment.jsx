@@ -8,13 +8,14 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { format, parse } from "date-fns";
 import AppointmentService from "../../services/api/appointmentService";
+import TreatmentService from "../../services/api/treatmentService";
 
 const AppointmentBookingForm = () => {
 	const [formData, setFormData] = useState({
 		fullName: "",
 		phone: "",
 		treatmentCategory: "",
-		comment: "",
+		treatmentName: "",
 		appointmentDate: new Date(),
 		appointmentTime: "",
 	});
@@ -23,14 +24,17 @@ const AppointmentBookingForm = () => {
 	const [loading, setLoading] = useState(false);
 	const [timeSlotModalOpen, setTimeSlotModalOpen] = useState(false);
 	const [successDialogOpen, setSuccessDialogOpen] = useState(false);
-
-	const treatments = ["Skin", "Hair", "Anti Aging"];
+	const [treatmentsMap, setTreatmentsMap] = useState(new Map());
+	
+	const [treatments, setTreatments] = useState([]);
+	const [treatmentNames, setTreatmentNames] = useState([]);
 	const timeSlots = [
 		"11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM",
 		"12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM",
 		"01:00 PM", "01:15 PM", "01:30 PM", "01:45 PM",
 	];
-
+	
+	
 	const availabilityColors = {
 		available: "green",
 		limited: "orange",
@@ -38,7 +42,10 @@ const AppointmentBookingForm = () => {
 		blocked: "gray",
 		selected: "blue",
 	};
-
+	
+	const appointmentService = new AppointmentService();
+	const treatmentService = new TreatmentService();
+	
 	const validateForm = () => {
 		const newErrors = {};
 		if (!formData.fullName) newErrors.fullName = "Full name is required.";
@@ -50,13 +57,47 @@ const AppointmentBookingForm = () => {
 		return Object.keys(newErrors).length === 0;
 	};
 
-	const appointmentService = new AppointmentService();
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
+	useEffect(() => {
+		const fetchTreatments = async () => {
+			try {
+				const response = await treatmentService.getAllTreatments();
+				const treatmentsMap = new Map();
+				console.log(response);
+				const treatments = [];
+				Object.keys(response).forEach((category) => {
+					treatments.push(category);
+					response[category].forEach((treatment) => {
+						const { name } = treatment;
+						if (!treatmentsMap.has(category)) {
+							treatmentsMap.set(category, []);
+						}
+						treatmentsMap.get(category).push(name);
+					});
+				});
+				setTreatments(treatments);
+				console.log('treatment categories: ',treatments);
+				setTreatmentsMap(treatmentsMap);
+				console.log(treatmentsMap);
+			} catch (error) {
+				console.error("Failed to fetch treatments:", error);
+			}
+		};
+		fetchTreatments();
+	}, []);
+
+	useEffect(() =>{
+		// using formData's current treatmentCategory to get treatment names
+		if (!formData.treatmentCategory) return;
+		if (!treatmentsMap.has(formData.treatmentCategory)) return;
+		setTreatmentNames(treatmentsMap.get(formData.treatmentCategory));
+		console.log('treatment names: ', treatmentNames);
+	}, [treatments, formData.treatmentCategory]);
 	
 const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,13 +111,13 @@ const handleSubmit = async (e) => {
             };
             console.log(JSON.stringify(form, null, 2));
             const response = await appointmentService.createAppointment(form);
-            if (response) {
+            if (response && response.status === 200) {
                 setSuccessDialogOpen(true);
                 setFormData({
                     fullName: "",
                     phone: "",
                     treatmentCategory: "",
-                    comment: "",
+                    treatmentName: "",
                     appointmentDate: new Date(),
                     appointmentTime: "",
                 });
@@ -147,9 +188,9 @@ const handleSubmit = async (e) => {
 										onChange={handleInputChange}
 										error={!!errors.treatmentCategory}
 									>
-										{treatments.map((treatment, index) => (
-											<MenuItem key={index} value={treatment}>
-												{treatment}
+										{treatments.map((treatmentCategory, index) => (
+											<MenuItem key={index} value={treatmentCategory}>
+												{treatmentCategory}
 											</MenuItem>
 										))}
 									</Select>
@@ -157,18 +198,27 @@ const handleSubmit = async (e) => {
 								{errors.treatment && <Typography color="error">{errors.treatment}</Typography>}
 							</Grid>
 
-							{/* Comment */}
+							{/* Treatment Name */}
+							{/* Treatment Category */}
 							<Grid item xs={12}>
-								<TextField
-									label="Comment"
-									name="comment"
-									value={formData.comment}
-									onChange={handleInputChange}
-									error={!!errors.comment}
-									helperText={errors.comment}
-									fullWidth
-								/>
+								<FormControl fullWidth>
+									<InputLabel>Treatment Name</InputLabel>
+									<Select
+										name="treatmentName"
+										value={formData.treatmentName}
+										onChange={handleInputChange}
+										error={!!errors.treatmentName}
+									>
+										{treatmentNames.map((treatmentName, index) => (
+											<MenuItem key={index} value={treatmentName}>
+												{treatmentName}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+								{errors.treatment && <Typography color="error">{errors.treatment}</Typography>}
 							</Grid>
+
 
 							{/* Date */}
 							<Grid item xs={12}>
