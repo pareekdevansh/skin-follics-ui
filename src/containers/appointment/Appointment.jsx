@@ -25,7 +25,7 @@ const AppointmentBookingForm = () => {
 	const [timeSlotModalOpen, setTimeSlotModalOpen] = useState(false);
 	const [successDialogOpen, setSuccessDialogOpen] = useState(false);
 	const [treatmentsMap, setTreatmentsMap] = useState(new Map());
-	
+
 	const [treatments, setTreatments] = useState([]);
 	const [treatmentNames, setTreatmentNames] = useState([]);
 	const timeSlots = [
@@ -33,8 +33,8 @@ const AppointmentBookingForm = () => {
 		"12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM",
 		"01:00 PM", "01:15 PM", "01:30 PM", "01:45 PM",
 	];
-	
-	
+
+
 	const availabilityColors = {
 		available: "green",
 		limited: "orange",
@@ -42,10 +42,10 @@ const AppointmentBookingForm = () => {
 		blocked: "gray",
 		selected: "blue",
 	};
-	
+
 	const appointmentService = new AppointmentService();
 	const treatmentService = new TreatmentService();
-	
+
 	const validateForm = () => {
 		const newErrors = {};
 		if (!formData.fullName) newErrors.fullName = "Full name is required.";
@@ -81,7 +81,7 @@ const AppointmentBookingForm = () => {
 					});
 				});
 				setTreatments(treatments);
-				console.log('treatment categories: ',treatments);
+				console.log('treatment categories: ', treatments);
 				setTreatmentsMap(treatmentsMap);
 				console.log(treatmentsMap);
 			} catch (error) {
@@ -91,45 +91,45 @@ const AppointmentBookingForm = () => {
 		fetchTreatments();
 	}, []);
 
-	useEffect(() =>{
+	useEffect(() => {
 		// using formData's current treatmentCategory to get treatment names
 		if (!formData.treatmentCategory) return;
 		if (!treatmentsMap.has(formData.treatmentCategory)) return;
 		setTreatmentNames(treatmentsMap.get(formData.treatmentCategory));
 		console.log('treatment names: ', treatmentNames);
 	}, [treatments, formData.treatmentCategory]);
-	
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-        setLoading(true);
-        try {
-            const formattedDate = format(formData.appointmentDate, "MM-dd-yyyy");
-            const form = {
-                ...formData,
-                appointmentDate: formattedDate,
-            };
-            console.log(JSON.stringify(form, null, 2));
-            const response = await appointmentService.createAppointment(form);
-            if (response && response.status === 200) {
-                setSuccessDialogOpen(true);
-                setFormData({
-                    fullName: "",
-                    phone: "",
-                    treatmentCategory: "",
-                    treatmentName: "",
-                    appointmentDate: new Date(),
-                    appointmentTime: "",
-                });
-                // TODO: Navigate to booked treatments page
-            }
-        } catch (error) {
-            console.error("Failed to create appointment:", error);
-        } finally {
-            setLoading(false);
-        }
-    }
-};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		if (validateForm()) {
+			setLoading(true);
+			try {
+				const formattedDate = format(formData.appointmentDate, "MM-dd-yyyy");
+				const form = {
+					...formData,
+					appointmentDate: formattedDate,
+				};
+				console.log(JSON.stringify(form, null, 2));
+				const response = await appointmentService.createAppointment(form);
+				if (response && response.status === 200) {
+					setSuccessDialogOpen(true);
+					setFormData({
+						fullName: "",
+						phone: "",
+						treatmentCategory: "",
+						treatmentName: "",
+						appointmentDate: new Date(),
+						appointmentTime: "",
+					});
+					// TODO: Navigate to booked treatments page
+				}
+			} catch (error) {
+				console.error("Failed to create appointment:", error);
+			} finally {
+				setLoading(false);
+			}
+		}
+	};
 
 	const openTimeSlotModal = () => setTimeSlotModalOpen(true);
 	const closeTimeSlotModal = () => setTimeSlotModalOpen(false);
@@ -210,7 +210,7 @@ const handleSubmit = async (e) => {
 										error={!!errors.treatmentName}
 									>
 										{treatmentNames.map((treatmentName, index) => (
-											<MenuItem key={index} value={treatmentName}>
+											<MenuItem key={index + 1} value={treatmentName}>
 												{treatmentName}
 											</MenuItem>
 										))}
