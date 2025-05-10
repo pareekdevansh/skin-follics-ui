@@ -5,8 +5,7 @@ import GoogleSignInButton from "../../components/google-sign-in/GoogleSignInButt
 
 const Register = () => {
 	const registrationForm = {
-		firstName: "",
-		lastName: "",	
+		name: "",
 		phone: ""
 	};	
 	const [loading, setLoading] = useState(false);

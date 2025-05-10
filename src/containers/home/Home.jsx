@@ -6,6 +6,7 @@ import AboutSection from "./about/AboutSection";
 import ContactUsSection from "./contact-us/ContactUsSection";
 import Carousel from "../../components/carousel/Carousel";
 import GallerySection from "./gallery/GallerySection";
+import GoogleReviews from "./GoogleReviews";
 
 const heroUrls =
 	[
@@ -40,6 +41,7 @@ const Home = () => {
 
 				<TreatmentsList />
 
+				<GoogleReviews />
 				{/* <TestimonialsSection /> */}
 				<GallerySection />
 

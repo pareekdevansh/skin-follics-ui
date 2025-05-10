@@ -5,10 +5,9 @@ import { IoMdLock } from "react-icons/io";
 import { Refresh } from "@mui/icons-material";
 
 const CustomRegistrationForm = ({ registrationForm, handleSubmitForm, loading }) => {
-    const { firstName: _firstName, lastName: _lastName, phone: _phone } = registrationForm;
+    const { name: _name, phone: _phone } = registrationForm;
 
-    const [firstName, setFirstName] = useState(_firstName);
-    const [lastName, setLastName] = useState(_lastName);
+    const [name, setName] = useState(_name);
     const [phoneNumber, setPhoneNumber] = useState(_phone);
     const [otp, setOtp] = useState("");
     const [otpVerificationSuccess, setOtpVerificationSuccess] = useState(false);
@@ -30,12 +29,11 @@ const CustomRegistrationForm = ({ registrationForm, handleSubmitForm, loading })
 
     const validateForm = () => {
         const newErrors = {};
-        if (firstName.length < 3) newErrors.firstName = "First name must be at least 3 characters";
-        if (lastName === "") newErrors.lastName = "Please enter your last name";
+        if (name.length < 3) newErrors.name = "Name must be at least 3 characters";
         if (phoneNumber === "") newErrors.phoneNumber = "Please enter your phone number";
         const phoneRegex = /^[0-9]{10}$/;
         if (!phoneRegex.test(phoneNumber)) newErrors.phoneNumber = "Invalid phone number";
-        if (otp.length !== 4) newErrors.otp = "OTP must be 4 digits";
+        if (otp.length !== 4) newErrors.otp = "OTP must be of 4 digits";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -43,7 +41,7 @@ const CustomRegistrationForm = ({ registrationForm, handleSubmitForm, loading })
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            handleSubmitForm({ firstName, lastName, phoneNumber, otp });
+            handleSubmitForm({ name, phoneNumber, otp });
         } else {
             console.log("Form validation failed");
         }
@@ -56,23 +54,26 @@ const CustomRegistrationForm = ({ registrationForm, handleSubmitForm, loading })
     };
 
     const handleVerifyOtp = () => {
-        setOtpVerificationSuccess(true); // Simulating OTP verification success
-        // make register call to backend 
-        // if otp verification successful , login user 
-        // otherwise show error
+        if(otp === "1234") {
+            const isOtpVerified = true;
+            setOtpVerificationSuccess(isOtpVerified);
+            handleSubmitForm({ name, phoneNumber, otp });
+        } else { 
+            setErrors({ otp: "Otp Verification Failed. Pls try again" });
+        }
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", maxWidth: 400 }} gap={2}>
                 <TextField
-                    label="First Name"
+                    label="Full Name"
                     fullWidth
                     margin="normal"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    error={!!errors.firstName}
-                    helperText={errors.firstName}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    error={!!errors.name}
+                    helperText={errors.name}
                     InputProps={{
                         startAdornment: <FaUserAlt style={{ marginRight: 8, color: "#4e627b" }} />,
                     }}
@@ -80,24 +81,7 @@ const CustomRegistrationForm = ({ registrationForm, handleSubmitForm, loading })
                     sx={{ backgroundColor: "#fff" }}
                 />
 
-                {firstName.length >= 3 && (
-                    <TextField
-                        label="Last Name"
-                        fullWidth
-                        margin="normal"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        error={!!errors.lastName}
-                        helperText={errors.lastName}
-                        InputProps={{
-                            startAdornment: <FaUserAlt style={{ marginRight: 8, color: "#4e627b" }} />,
-                        }}
-                        variant="outlined"
-                        sx={{ backgroundColor: "#fff" }}
-                    />
-                )}
-
-                {firstName.length >= 3 && lastName !== "" && (
+                {name.length >= 3 && (
                     <TextField
                         label="Phone Number"
                         fullWidth
@@ -122,7 +106,7 @@ const CustomRegistrationForm = ({ registrationForm, handleSubmitForm, loading })
                     />
                 )}
 
-                {firstName.length >= 3 && lastName !== "" && phoneNumber.length === 10 && !otpVerificationSuccess && (
+                {name.length >= 3 && phoneNumber.length === 10 && !otpVerificationSuccess && (
                     <Button
                         variant="outlined"
                         color="primary"
