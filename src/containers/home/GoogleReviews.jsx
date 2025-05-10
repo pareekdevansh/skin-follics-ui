@@ -5,7 +5,7 @@ const GoogleReviews = () => {
 
   useEffect(() => {
     // Optional: Suppress ResizeObserver warning (dev only)
-    if (process.env.NODE_ENV === 'development') {
+    // if (process.env.NODE_ENV === 'development') {
       const originalError = window.onerror;
       window.onerror = function (message, ...args) {
         if (
@@ -17,7 +17,7 @@ const GoogleReviews = () => {
         if (originalError) return originalError(message, ...args);
         return false;
       };
-    }
+    // }
 
     // Delay script loading to allow DOM to settle
     const timeout = setTimeout(() => {

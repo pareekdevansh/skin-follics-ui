@@ -5,6 +5,8 @@ import AppRoutes from "./routes/AppRoutes";
 import { initializeAnalytics } from "./analytics";
 import useAnalytics from "./hooks/useAnalytics";
 import { useEffect } from "react";
+import { FaWhatsapp } from "react-icons/fa";
+import SideBar from "./components/sidebar/SideBar";
 
 
 function App() {
@@ -18,7 +20,7 @@ function App() {
 	return (
 		<div className="app">
 			<div className="overlay">
-				{/* <SideBar /> */}
+				<SideBar />
 			</div>
 			<NavBar />
 			<AppRoutes />
