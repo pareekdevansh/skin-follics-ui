@@ -1,14 +1,40 @@
-import React, { useEffect } from 'react';
-import { ElfsightWidget } from 'react-elfsight-widget';
-import './google-reviews.css';
+import { useEffect, useRef } from "react";
+
 const GoogleReviews = () => {
+  const iframeRef = useRef(null);
+
+  useEffect(() => {
+    const iframe = iframeRef.current;
+
+    const handleResize = () => {
+      try {
+        // You can write custom iframe resizing logic here if needed
+        iframe.style.height = iframe.contentWindow.document.body.scrollHeight + "px";
+      } catch (err) {
+        // Cross-origin protection might block access
+        console.warn("Resize attempt failed:", err.message);
+      }
+    };
+
+    if (iframe) {
+      iframe.addEventListener("load", handleResize);
+    }
+
+    return () => {
+      if (iframe) {
+        iframe.removeEventListener("load", handleResize);
+      }
+    };
+  }, []);
 
   return (
-    <div className="elf-container">
-      <div className="elf-inner">
-        <ElfsightWidget widgetId="0eb3a3d8-2809-426e-9c3f-2e9532c5298a" lazy />
-      </div>
-    </div>
+    <iframe
+      ref={iframeRef}
+      src="https://0eb3a3d82809426e9c3f2e9532c5298a.elf.site"
+      style={{ border: "none", width: "100%", height: "500px" }}
+      title="Elfsight Widget"
+      loading="lazy"
+    />
   );
 };
 
