@@ -1,5 +1,6 @@
 import React, { lazy } from "react";
 import { APP_NAME } from "../constants/app-info";
+import MyAppointments from "../containers/my-appointments";
 const Home = lazy(() => import("../containers/home"));
 const Appointment = lazy(() => import("../containers/appointment"));
 const About = lazy(() => import("../containers/about"));
@@ -96,6 +97,16 @@ export const routes = [
             description: `Schedule an appointment at ${APP_NAME} for expert acne treatments, hair transplants, and more.`,
             keywords: `book appointment, schedule consultation, book skin treatment, dermatology appointment, ${generalKeywords}`,
         },
+    },
+    {
+        path : "/my-appointments/:userId",
+        component: MyAppointments,
+        name: "My Appointments",
+        seo: {
+            title: `My Appointments - ${APP_NAME}`,
+            description: `View and manage your appointments with ${APP_NAME}.`,
+            keywords: `book appointment, schedule consultation, book skin treatment, dermatology appointment, ${generalKeywords}`,
+        }
     },
     {
         path: "/about-us",

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Avatar, Box, Menu, MenuItem, IconButton, Tooltip } from '@mui/material';
+import AppointmentService from '../../services/api/appointmentService';
 
 interface UserProfileProps {
     user: { isAuthenticated: boolean; name: string; avatarUrl: string };
@@ -8,6 +9,7 @@ interface UserProfileProps {
 const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
     const [profileMenuOpen, setProfileMenuOpen] = useState<null | HTMLElement>(null);
 
+    const appointmentService = new AppointmentService();
     const handleOpenProfileMenu = (event: React.MouseEvent<HTMLElement>) => {
         setProfileMenuOpen(event.currentTarget);
     };
@@ -17,10 +19,18 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
     };
 
     const handleProfileAction = (action: string) => {
-        if (action === 'logout') {
-            console.log('User logged out');
-        } else if (action === 'profile') {
-            window.location.href = '/profile';
+        // use switch case 
+        switch(action) {
+            case 'profile':
+                window.location.href = '/profile';
+                break;
+            case 'appointments':
+                // TODO: remove hardcoding later 
+                window.location.href = '/my-appointments/1';
+                break;
+            case 'logout':
+                console.log('User logged out');
+                break;
         }
         setProfileMenuOpen(null);
     };
@@ -48,6 +58,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
                 onClose={handleCloseProfileMenu}
             >
                 <MenuItem onClick={() => handleProfileAction('profile')}>Profile</MenuItem>
+                <MenuItem onClick={() => handleProfileAction('appointments')}>My Appointments</MenuItem>
                 <MenuItem onClick={() => handleProfileAction('logout')}>Logout</MenuItem>
             </Menu>
         </Box>

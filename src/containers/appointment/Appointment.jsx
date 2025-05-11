@@ -110,7 +110,7 @@ const AppointmentBookingForm = () => {
 					appointmentDate: formattedDate,
 				};
 				console.log(JSON.stringify(form, null, 2));
-				const response = await appointmentService.createAppointment(form);
+				const response = await appointmentService.addAppointment(form);
 				if (response && response.status === 200) {
 					setSuccessDialogOpen(true);
 					setFormData({
