@@ -1,3 +1,4 @@
+import { Box, Typography } from "@mui/material";
 import { useEffect, useRef } from "react";
 
 const GoogleReviews = () => {
@@ -28,16 +29,33 @@ const GoogleReviews = () => {
   }, []);
 
   return (
-    <div className="container">
+    <Box sx={{ paddingBottom : "32px", paddingX: '5%' }}>
+      {/* Flex container for Title and Button */}
+      <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
 
-      <iframe
-        ref={iframeRef}
-        src="https://0eb3a3d82809426e9c3f2e9532c5298a.elf.site"
-        style={{ border: "none", width: "100%", height: "100vh" }}
-        title="Elfsight Widget"
-        loading="lazy"
-      />
-    </div>
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: "bold",
+            textAlign: "start",
+            marginRight: ".5rem",
+          }}
+          alignSelf={"start"}
+        >
+          What our Patients say
+        </Typography>
+        <iframe
+          ref={iframeRef}
+          src="https://0eb3a3d82809426e9c3f2e9532c5298a.elf.site"
+          style={{
+            width: '100%', minHeight: '500px',maxHeight: '1100px', margin: 0, padding: 0,
+            flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+          }}
+          title="Elfsight Widget"
+          loading="lazy"
+        />
+      </Box>
+    </Box>
   );
 };
 
