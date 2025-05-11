@@ -6,7 +6,7 @@ import AboutSection from "./about/AboutSection";
 import ContactUsSection from "./contact-us/ContactUsSection";
 import Carousel from "../../components/carousel/Carousel";
 import GallerySection from "./gallery/GallerySection";
-import GoogleReviews from "./GoogleReviews";
+import GoogleReviews from "./google-review/GoogleReviews";
 
 const heroUrls =
 	[
