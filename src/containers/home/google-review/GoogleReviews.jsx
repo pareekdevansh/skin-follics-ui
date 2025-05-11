@@ -28,13 +28,16 @@ const GoogleReviews = () => {
   }, []);
 
   return (
-    <iframe
-      ref={iframeRef}
-      src="https://0eb3a3d82809426e9c3f2e9532c5298a.elf.site"
-      style={{ border: "none", width: "100%", height: "500px" }}
-      title="Elfsight Widget"
-      loading="lazy"
-    />
+    <div className="container">
+
+      <iframe
+        ref={iframeRef}
+        src="https://0eb3a3d82809426e9c3f2e9532c5298a.elf.site"
+        style={{ border: "none", width: "100%", height: "100vh" }}
+        title="Elfsight Widget"
+        loading="lazy"
+      />
+    </div>
   );
 };
 
