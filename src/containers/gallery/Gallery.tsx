@@ -1,33 +1,32 @@
 import React from "react";
-import { Box, Typography, Grid, Card, CardContent, Divider, useMediaQuery } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { Box, Typography, Grid, Divider } from "@mui/material";
 import { keyframes } from "@emotion/react";
 import CustomCard from "../../components/card/CustomCard";
 
 const galleryPics = [
     {
-        imgSrc: "/assets/gallery/clinic_front.jpg",
+        imgSrc: "/assets/gallery/clinic_front.webp",
         imgAlt: "Clinic Front View with Parking",
         title: "Convenient Parking and Easy Access",
         description:
             "The clinic entrance is complemented by ample parking space, ensuring easy access for all patients. Designed to accommodate a variety of vehicles, the parking area provides a hassle-free experience, allowing you to focus on your visit. From the moment you arrive, convenience is prioritized to make your journey smooth and stress-free.",
     },
     {
-        imgSrc: "/assets/gallery/skin_follics_clinic.jpg",
+        imgSrc: "/assets/gallery/skin_follics_clinic.webp",
         imgAlt: "Clinic Entrance and Waiting Area",
         title: "Comfortable Waiting Area with Caring Staff",
         description:
             "Our waiting area is thoughtfully arranged to provide a calming environment for patients. With modern seating and a welcoming ambiance, it offers a space to relax before your appointment. Our courteous staff ensures that every visit is pleasant, reflecting our commitment to professional and attentive care.",
     },
     {
-        imgSrc: "/assets/gallery/opd1.jpg",
+        imgSrc: "/assets/gallery/opd1.webp",
         imgAlt: "OPD Consultation Room",
         title: "Modern OPD for Comprehensive Skin Care",
         description:
             "The OPD is equipped with advanced tools to facilitate accurate diagnosis and effective treatment plans. Designed with patient comfort and functionality in mind, the space ensures a seamless consultation experience. Every detail supports our aim to deliver high-quality dermatological care in a professional setting.",
     },
     {
-        imgSrc: "/assets/gallery/doctor_treatment_light.jpg",
+        imgSrc: "/assets/gallery/doctor_treatment_light.webp",
         imgAlt: "Doctor Treating Patient at SkinFollics",
         title: "Advanced Treatment Delivered with Expertise",
         description:
@@ -43,19 +42,17 @@ const fadeIn = keyframes`
   to { opacity: 1; transform: translateY(0); }
 `;
 
-const slideInLeft = keyframes`
-  from { opacity: 0; transform: translateX(-50px); }
-  to { opacity: 1; transform: translateX(0); }
-`;
+// const slideInLeft = keyframes`
+//   from { opacity: 0; transform: translateX(-50px); }
+//   to { opacity: 1; transform: translateX(0); }
+// `;
 
-const slideInRight = keyframes`
-  from { opacity: 0; transform: translateX(50px); }
-  to { opacity: 1; transform: translateX(0); }
-`;
+// const slideInRight = keyframes`
+//   from { opacity: 0; transform: translateX(50px); }
+//   to { opacity: 1; transform: translateX(0); }
+// `;
 
 const Gallery = () => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
         <Box
@@ -91,7 +88,7 @@ const Gallery = () => {
                             content={pic.description}
                             imageUrl={pic.imgSrc}
                             imageAlt={pic.imgAlt}
-                            flexDirection={index % 2 === 0 ? "row" : "row-reverse"} 
+                            flexDirection={index % 2 === 0 ? "row" : "row-reverse"}
                         />
                     </Grid>
                 ))}

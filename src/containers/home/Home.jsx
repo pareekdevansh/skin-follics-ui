@@ -6,34 +6,34 @@ import AboutSection from "./about/AboutSection";
 import ContactUsSection from "./contact-us/ContactUsSection";
 import Carousel from "../../components/carousel/Carousel";
 import GallerySection from "./gallery/GallerySection";
+import GoogleReviews from "./google-review/GoogleReviews";
 
 const heroUrls =
 	[
-		{ type: "image", src: "assets/images/bg_skin_follix.jpg", alt: "Image at bg_skin_follix.jpg" },
-		{ type: "image", src: "assets/images/dr_vipul.jpg", alt: "Image at dr_vipul.jpg" },
-		{ type: "image", src: "assets/images/awards_wall.jpg", alt: "Image at awards_wall.jpg" }
+		{type : "image", src: "assets/background/home/bg_skin_follics_1.webp", alt: "Image at skin_follics.webp" },
+		{ type: "image", src: "assets/background/home/bg_skin_follics_2.webp", alt: "Image at bg_skin_follics_2" },
+		{ type: "image", src: "assets/background/home/bg_skin_follics_3.webp", alt: "Image at bg_skin_follics_3" },
+		{ type: "image", src: "assets/background/home/bg_skin_follics_4.webp", alt: "Image at bg_skin_follics_4" },
+		{ type: "image", src: "assets/background/home/bg_skin_follics_5.webp", alt: "Image at bg_skin_follics_5" }
 	]
 
 
-const testimonialsList = [
-	{
-		testimonialSampleUrls: [
-			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKbNoLb-0P6lZXYZVXt0rEWoeC-WrRzuxpFbnslzsE7Xj7yXqhXm7kX-vDB-VyeAx6eO4&usqp=CAU",
-			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKbNoLb-0P6lZXYZVXt0rEWoeC-WrRzuxpFbnslzsE7Xj7yXqhXm7kX-vDB-VyeAx6eO4&usqp=CAU",
-		],
-		treatmentName: "Acne Treatment",
-		patientFeedback:
-			"I had a great experience with this dermatology hospital. The staff is knowledgeable and caring, and the treatments are effective.",
-		rating: 4,
-		patientName: "Arya Sharma",
-	}
-];
+// const testimonialsList = [
+// 	{
+// 		testimonialSampleUrls: [
+// 			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKbNoLb-0P6lZXYZVXt0rEWoeC-WrRzuxpFbnslzsE7Xj7yXqhXm7kX-vDB-VyeAx6eO4&usqp=CAU",
+// 			"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKbNoLb-0P6lZXYZVXt0rEWoeC-WrRzuxpFbnslzsE7Xj7yXqhXm7kX-vDB-VyeAx6eO4&usqp=CAU",
+// 		],
+// 		treatmentName: "Acne Treatment",
+// 		patientFeedback:
+// 			"I had a great experience with this dermatology hospital. The staff is knowledgeable and caring, and the treatments are effective.",
+// 		rating: 4,
+// 		patientName: "Arya Sharma",
+// 	}
+// ];
 
 
 const Home = () => {
-	const handleSlideChange = (currentSlide) => {
-		console.log(`Current Slide: ${currentSlide}`);
-	};
 
 	return (
 		<Box>
@@ -43,6 +43,7 @@ const Home = () => {
 
 				<TreatmentsList />
 
+				<GoogleReviews />
 				{/* <TestimonialsSection /> */}
 				<GallerySection />
 

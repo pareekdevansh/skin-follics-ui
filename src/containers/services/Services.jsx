@@ -4,35 +4,28 @@ import { Clear as ClearIcon } from '@mui/icons-material';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { useNavigate } from 'react-router-dom';
 import { trackFilterEvent, trackSearchEvent } from "../../analytics";
-const services = [
-	{ name: "Acne (Pimples) Treatment", category: "Skin", description: "Personalized acne treatments, including topical therapies, oral medications, chemical peels, and advanced laser procedures to manage and prevent breakouts effectively." },
-	{ name: "Acne Scar Treatment", category: "Skin", description: "Microneedling, laser resurfacing, dermal fillers, and subcision to improve skin texture and minimize the appearance of scars." },
-	{ name: "Hair Loss Treatment", category: "Hair", description: "Comprehensive solutions for hair loss, including medications like minoxidil and finasteride, PRP therapy, and hair revitalization procedures tailored to individual needs." },
-	{ name: "Hair Transplant", category: "Hair", description: "We specialize in advanced hair transplant techniques like FUE (Follicular Unit Extraction) and FUT (Follicular Unit Transplantation) to restore natural hair growth." },
-	{ name: "PRP Treatment", category: "Anti-Aging", description: "Platelet-rich plasma (PRP) therapy is a regenerative treatment that uses your body's natural growth factors to stimulate hair growth and skin rejuvenation." },
-	{ name: "Lasers", category: "Anti-Aging", description: "State-of-the-art laser treatments for skin resurfacing, pigmentation, hair removal, and scar reduction, ensuring safe and effective results." },
-	{ name: "Leucoderma and Vitiligo Treatment", category: "Skin", description: "Comprehensive care for leucoderma and vitiligo, including phototherapy, medications, and camouflage solutions to improve pigmentation." },
-	{ name: "Vitiligo Surgery", category: "Skin", description: "Surgical options like skin grafting and melanocyte transplantation to restore pigmentation in vitiligo-affected areas." },
-	{ name: "Wart Treatment", category: "Skin", description: "Effective wart removal procedures using cryotherapy, laser therapy, or topical solutions, providing quick and safe relief." },
-	{ name: "Eczema Treatment", category: "Anti-Aging", description: "Personalized treatment plans for eczema, including emollients, topical steroids, and lifestyle guidance to manage flare-ups and improve skin texture." },
-	{ name: "Atopic Dermatitis Treatment", category: "Skin", description: "Comprehensive care for atopic dermatitis with anti-inflammatory therapies, moisturizers, and immune-modulating treatments." },
-	{ name: "Psoriasis Treatment", category: "Anti-Aging", description: "Advanced treatments for psoriasis, including topical therapies, systemic medications, and biologics to manage symptoms and improve skin appearance." },
-	{ name: "Skin Allergy Treatment", category: "Anti-Aging", description: "Allergy management includes antihistamines, topical treatments, and diagnostic tests to identify triggers and provide relief while maintaining healthy skin." },
-	{ name: "Urticaria Treatment", category: "Anti-Aging", description: "Comprehensive care for hives, including antihistamines and advanced immunotherapy for chronic urticaria." },
-	{ name: "Keloid Treatment", category: "Skin", description: "Specialized treatments for keloids, such as steroid injections, laser therapy, and surgical removal to reduce size and discomfort." },
-	{ name: "Hypertrophic Scar Treatment", category: "Skin", description: "Treatment options include silicone gels, steroid injections, and laser therapy to improve the appearance of hypertrophic scars." },
-	{ name: "Burn Scar Treatment", category: "Skin", description: "Comprehensive care for burn scars using laser therapy, skin grafting, and rehabilitation to improve skin texture and functionality." },
-	{ name: "Nail Disease Treatment", category: "Skin", description: "Expert care for fungal infections, ingrown nails, and other nail disorders, offering medical and procedural solutions." },
-	{ name: "Unwanted Hair Treatment", category: "Hair", description: "Advanced laser hair removal techniques for permanent reduction of unwanted hair, ensuring smooth and hair-free skin." },
-	{ name: "STD Treatment", category: "Skin", description: "Confidential and comprehensive care for sexually transmitted diseases, including diagnosis, treatment, and counseling." }
-];
+import { services } from "./constants";
 
 const Services = () => {
+
+	const ALL = "All";
+	const HAIR = "Hair";
+	const SKIN = "Skin";
+	const ANTI_AGING = "Anti-Aging";
+	const imageUrlsByCategory = {
+		[ALL]: "assets/background/treatments/all.webp",
+		[HAIR]: "assets/background/treatments/hair.webp",
+		[SKIN]: "assets/background/treatments/skin.webp",
+		[ANTI_AGING]: "assets/background/treatments/anti_aging.webp"
+	}
+
 	const [selectedCategory, setSelectedCategory] = useState("");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [filteredServices, setFilteredServices] = useState(services);
 	const navigate = useNavigate();
 	const searchTimeout = useRef(null); // Reference to store the timeout for debounce
+	const [imageSrc, setImageSrc] = useState(imageUrlsByCategory[ALL]);
+
 
 	const navigateToService = (serviceName) => {
 		navigate(`/service/${serviceName}`);
@@ -78,6 +71,8 @@ const Services = () => {
 			);
 		}, 500);
 
+		setImageSrc(imageUrlsByCategory[selectedCategory] || imageUrlsByCategory[ALL]);
+
 		return () => {
 			if (searchTimeout.current) {
 				clearTimeout(searchTimeout.current);
@@ -86,105 +81,151 @@ const Services = () => {
 	}, [searchQuery, selectedCategory]);
 
 	return (
-		<Box sx={{ padding: "32px", backgroundColor: "#f9f9f9", minHeight: "80vh", overflow: "auto" }}>
-			{/* Search Bar */}
-			<Box sx={{ marginBottom: "24px", display: "flex", justifyContent: "center" }}>
-				<TextField
-					label="Search Treatments"
-					variant="outlined"
-					fullWidth
-					value={searchQuery}
-					onChange={handleSearchChange}
+		<Box>
+			<Box
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					justifyContent: "center",
+					alignItems: "center",
+					width: "100%",
+					height: "100%",
+					maxHeight: "600px", // You can adjust this as per your needs
+					overflow: "hidden",
+					margin: "0 auto",
+				}}
+			>
+				<img
+					src={imageSrc}
+					alt={"Skin Follics Service Image"}
+					style={{
+						width: "100%",
+						height: "auto", // Ensures images scale proportionally
+						maxHeight: "100%", // Prevents images from exceeding container size
+						objectFit: "contain", // Ensures content is fully visible, no cropping
+						objectPosition: "center", // Centers the content
+					}}
+				/>
+			</Box>
+
+			<Box sx={{ padding: { xs: "16px", sm: "32px" }, backgroundColor: "#fafafa", minHeight: "100vh", overflow: "auto" }}>
+
+				<Box
 					sx={{
-						maxWidth: "600px",
-						borderRadius: "8px",
-						backgroundColor: "white",
-						"& .MuiOutlinedInput-root": {
-							borderRadius: "8px",
-						},
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						gap: "24px",
+						flexWrap: "wrap", // optional for responsiveness
+						marginBottom: "24px",
 					}}
-					InputProps={{
-						endAdornment: (
-							<IconButton onClick={handleClearSearch} sx={{ padding: "8px" }}>
-								<ClearIcon />
-							</IconButton>
-						),
-					}}
-				/>
-			</Box>
-
-			{/* Filter Chips */}
-			<Box sx={{ marginBottom: "24px", display: "flex", gap: "16px", justifyContent: "center" }}>
-				<Chip
-					label="Hair"
-					color={selectedCategory === "Hair" ? "primary" : "default"}
-					onClick={() => handleFilterChange("Hair")}
-				/>
-				<Chip
-					label="Skin"
-					color={selectedCategory === "Skin" ? "primary" : "default"}
-					onClick={() => handleFilterChange("Skin")}
-				/>
-				<Chip
-					label="Anti-Aging"
-					color={selectedCategory === "Anti-Aging" ? "primary" : "default"}
-					onClick={() => handleFilterChange("Anti-Aging")}
-				/>
-				<IconButton
-
-					variant="contained"
-					onClick={handleClearFilter}
 				>
-					<ClearAllIcon />
-				</IconButton>
-			</Box>
-
-			<Box sx={{ display: "flex", flexWrap: "wrap", gap: "2rem", justifyContent: "center" }}>
-				{filteredServices.length > 0 ? (
-					filteredServices.map((service) => (
-						<Card
-							key={service.name}
-							sx={{
-								width: { xs: "100%", sm: "50%", md: "30%" },
-								paddingX: "1rem",
-								display: "flex",
-								flexDirection: "column",
-								boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-								borderRadius: "8px",
-								transition: "transform 0.3s",
-								"&:hover": {
-									transform: "scale(1.05)",
-									boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
-								},
-							}}
+					{/* Filter Chips */}
+					<Box sx={{ display: "flex", gap: "16px", alignItems: "center" }}>
+						<Chip
+							label="Hair"
+							color={selectedCategory === "Hair" ? "primary" : "default"}
+							onClick={() => handleFilterChange("Hair")}
+							sx={{ cursor: "pointer" }}
+						/>
+						<Chip
+							label="Skin"
+							color={selectedCategory === "Skin" ? "primary" : "default"}
+							onClick={() => handleFilterChange("Skin")}
+							sx={{ cursor: "pointer" }}
+						/>
+						<Chip
+							label="Anti-Aging"
+							color={selectedCategory === "Anti-Aging" ? "primary" : "default"}
+							onClick={() => handleFilterChange("Anti-Aging")}
+							sx={{ cursor: "pointer" }}
+						/>
+						<IconButton
+							onClick={handleClearFilter}
+							sx={{ cursor: "pointer" }}
 						>
-							<Box sx={{ paddingX: "8px", paddingY: "4px", display: 'flex', flexDirection: "column", justifyContent: "space-between", flexGrow: 1, height: '90%' }}>
+							<ClearAllIcon />
+						</IconButton>
+					</Box>
+
+					{/* Search Bar */}
+					<TextField
+						label="Search Treatments"
+						variant="outlined"
+						value={searchQuery}
+						onChange={handleSearchChange}
+						sx={{
+							maxWidth: "400px",
+							width: "100%",
+							backgroundColor: "white",
+							borderRadius: "8px",
+							"& .MuiOutlinedInput-root": {
+								borderRadius: "8px",
+							},
+						}}
+						InputProps={{
+							endAdornment: (
+								<IconButton onClick={handleClearSearch} sx={{ padding: "8px" }}>
+									<ClearIcon />
+								</IconButton>
+							),
+						}}
+					/>
+				</Box>
+
+
+				{/* Service Cards */}
+				<Box sx={{ display: "flex", flexWrap: "wrap", gap: "2rem", justifyContent: "center" }}>
+					{filteredServices.length > 0 ? (
+						filteredServices.map((service) => (
+							<Card
+								key={service.name}
+								onClick={() => navigateToService(service.name)}
+								sx={{
+									width: { xs: "100%", sm: "45%", md: "30%" },
+									padding: "16px",
+									display: "flex",
+									flexDirection: "column",
+									boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+									borderRadius: "8px",
+									transition: "transform 0.3s, box-shadow 0.3s",
+									cursor: "pointer",
+									"&:hover": {
+										transform: "scale(1.05)",
+										boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
+									},
+								}}
+							>
 								{/* Service Image */}
-								<Box
-									height="180"
+								{service.treatmentUrl && <Box
+									component="img"
+									src={service.treatmentUrl}
+									alt={service.shortDescription}
 									sx={{
+										width: "100%",
+										height: "200px",
 										objectFit: "cover",
 										borderTopLeftRadius: "8px",
 										borderTopRightRadius: "8px",
 									}}
-								/>
-								{/* Service Title and Description */}
-								<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-									<Typography variant="h6" component="h3" sx={{ fontWeight: "bold", color: "text.primary" }}>
+								/>}
+								{/* Service Content */}
+								<Box sx={{ padding: "16px" }}>
+									<Typography variant="h6" sx={{ fontWeight: "bold", color: "text.primary", marginBottom: "8px" }}>
 										{service.name}
 									</Typography>
-									<Typography variant="body2" sx={{ marginTop: "8px", marginBottom: "16px", color: "text.secondary" }}>
+									<Typography variant="body2" sx={{ color: "text.secondary" }}>
 										{service.description}
 									</Typography>
 								</Box>
-							</Box>
-						</Card>
-					))
-				) : (
-					<Typography variant="h6" sx={{ color: "text.secondary", textAlign: "center", width: "100%" }}>
-						No services found.
-					</Typography>
-				)}
+							</Card>
+						))
+					) : (
+						<Typography variant="h6" sx={{ color: "text.secondary", textAlign: "center", width: "100%" }}>
+							No services found.
+						</Typography>
+					)}
+				</Box>
 			</Box>
 		</Box>
 	);

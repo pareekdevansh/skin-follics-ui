@@ -1,12 +1,10 @@
 import React from "react";
-import { Box, Grid, Card, Typography, Stack } from "@mui/material";
-import SEO from "../../components/seo/Seo";
+import { Card, Typography, Stack } from "@mui/material";
 import styled from "styled-components";
 import { APP_NAME } from "../../constants/app-info";
 import CustomCard from "../../components/card/CustomCard";
 import CustomList from "../../components/list/CustomList";
 
-// Styled-components for layout
 const PageContainer = styled.div`
   display : flex;
   flex-direction: column;
@@ -22,41 +20,6 @@ const PageContainer = styled.div`
   flex-direction: column;
   margin: auto;
   max-width: 100%;
-`;
-
-
-const CardContainer = styled(Box)`
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-`;
-
-const SectionTitle = styled.h2`
-  text-align: left;
-  margin-bottom: 32px;
-  font-weight: 400;
-  color: #444;
-`;
-
-const SectionText = styled.p`
-  line-height: 1.8;
-  margin-bottom: 16px;
-  color: #555;
-`;
-
-const FounderContainer = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 24px;
-  gap: 16px;
 `;
 
 const AboutUsPage = () => {
@@ -114,7 +77,7 @@ const AboutUsPage = () => {
               key={index}
               title={card.title}
               content={card.content}
-              
+
             />
           ))}
         </Stack>
@@ -125,7 +88,7 @@ const AboutUsPage = () => {
         content={
           "At SkinFollics, we are dedicated to offering the best dermatology care for skin, hair, and anti-aging. With advanced treatments and a patient-first approach, we focus on bringing you visible results and renewed confidence. Our promise is simple: the highest quality care, unparalleled expertise, and a journey toward healthier, radiant skin and hair you deserve."
         }
-        imageUrl="assets/images/dr_vipul.jpg" // Passing image URL to the CustomCard
+        imageUrl="assets/images/dr_vipul.webp" // Passing image URL to the CustomCard
         imageAlt="Founder of SkinFollics, Dr. Vipul"
         // imageHeight="400px"
         // imageWidth="400px"

@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { routes } from "./routes";
 import Loading from "../components/loading/Loading";
 import SEO from "../components/seo/Seo";
@@ -8,9 +8,12 @@ const AppRoutes = () => {
     return (
         <BrowserRouter>
             <Suspense fallback={<Loading />}>
+
                 <Routes>
-                    {routes.map(({ path, component: Component, visibleToRouter, seo }, index) => {
-                        return visibleToRouter ? (
+                    <Route path="/" element={<Navigate to={'/home'} replace />} />
+
+                    {routes.map(({ path, component: Component, seo }, index) => {
+                        return (
                             <Route
                                 key={index}
                                 path={path}
@@ -20,8 +23,7 @@ const AppRoutes = () => {
                                         <Component />
                                     </>
                                 }
-                            />
-                        ) : null;
+                            />)
                     })}
                 </Routes>
             </Suspense>

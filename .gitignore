@@ -28,3 +28,6 @@ yarn-error.log*
 .vscode
 .idea
 *.log
+
+# AWS configuration
+src/aws-exports.js

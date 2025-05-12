@@ -8,11 +8,10 @@ import {
     ListItem,
     ListItemText,
     Divider,
-    Link,
     Card,
     CardContent,
 } from "@mui/material";
-import { Phone, Place, LocalHospital, CheckCircle } from "@mui/icons-material";
+import { LocalHospital, CheckCircle } from "@mui/icons-material";
 
 const DoctorDetailPage = () => {
     const expertiseItems = [
@@ -40,7 +39,7 @@ const DoctorDetailPage = () => {
                         <Card elevation={3} sx={{ borderRadius: 2, overflow: "hidden" }}>
                             <Box sx={{ textAlign: "center" }}>
                                 <img
-                                    src="/assets/profiles/profile_dr_vipul.jpg"
+                                    src="/assets/profiles/profile_dr_vipul.webp"
                                     alt="Dr. Vipul Pareek"
                                     style={{ maxWidth: "100%", maxHeight: 400, objectFit: "cover", alignSelf: "center", justifySelf: "center" }}
                                 />

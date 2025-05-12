@@ -1,147 +1,161 @@
-import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import MenuIcon from '@mui/icons-material/Menu';
-import Menu from '@mui/material/Menu';
-import { navItems } from './constants.js';
+import NavMenu from './NavMenu';
+import Logo from './Logo';
+import UserProfile from './UserProfile';
+import { navItems } from './constants';
+import { IconButton } from '@mui/material';
 
-function NavBar() {
-    const [navMenuOpen, setNavMenuOpen] = React.useState<null | HTMLElement>(null);
 
+const StyledAppBar = styled.header`
+    background: var(--navbar-color, linear-gradient(to right, #2c2c2c, #1f1f1f));
+    color: black;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+    padding: 0 5%;
+    position: static;
+`;
+
+const Toolbar = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+`;
+
+const LogoContainer = styled.div`
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    order: 2; 
+    @media (min-width: 960px) {
+        justify-content: flex-start;
+        order: 1;
+    }
+`;
+
+const MobileMenuButton = styled.div`
+    display: flex;
+    order: 1;
+    @media (min-width: 960px) {
+        display: none;
+    }
+`;
+
+const DesktopMenuContainer = styled.nav`
+    display: none;
+    flex: 1;
+    justify-content: center;
+    gap: 2rem; /* Standard gap for larger screens */
+    width: 100%;
+    margin: 0 auto;
+    white-space: nowrap; /* Prevent wrapping */
+
+    @media (min-width: 960px) {
+        display: flex;
+        flex-grow: 1;
+        order: 2;
+    }
+
+    @media (max-width: 1200px) {
+        gap: 1rem; /* Reduce gap for screens between 960px and 1200px */
+    }
+`;
+
+const UserProfileContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    order: 3;
+`;
+
+const NavButton = styled.button`
+    background: none;
+    border: none;
+    color: black;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 16px 4px;
+    text-transform: capitalize;
+    transition: transform 0.3s ease, color 0.3s ease;
+
+    &:hover {
+        transform: scale(1.1);
+        color: #0066cc;
+    }
+`;
+
+const NavBar = () => {
+    const [navMenuOpen, setNavMenuOpen] = useState<null | HTMLElement>(null);
+
+    // Update event type to match SVG elements
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setNavMenuOpen(event.currentTarget);
     };
 
+    // Handle closing of the mobile navigation menu
     const handleCloseNavMenu = () => {
         setNavMenuOpen(null);
     };
 
-    const handleNavigation = (url: string = '/') => {
+    // Handle navigation to a specific URL
+    const handleNavigation = (url: string = '/home') => {
         window.location.href = url;
-        setNavMenuOpen(null); // Close menu after navigation
+        setNavMenuOpen(null);
+    };
+
+    // Mock user data for the UserProfile component
+    const user = {
+        isAuthenticated: true,
+        name: 'John Doe',
+        avatarUrl: '/assets/user_avatar.png',
     };
 
     return (
-        <AppBar
-            position="static"
-            className="navbar"
-            sx={{
-                background: 'var(--navbar-color)',
-                color: 'black',
-                boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.25)',
-                padding: 0,
-                paddingX: '5%',
-            }}
-        >
-            <Container maxWidth="xl" sx={{ padding: 0 }}>
-                <Toolbar disableGutters>
-                    {/* Desktop Logo and Title */}
-                    <Box
-                        sx={{
-                            height: '100%',
-                            display: { xs: 'none', md: 'flex' },
-                            alignItems: 'center',
-                            cursor: 'pointer',
-                            marginRight: '4rem',
-                        }}
-                        onClick={() => handleNavigation('/')}
+        <StyledAppBar>
+            <Toolbar>
+                {/* Mobile Navigation Menu */}
+                <MobileMenuButton>
+                    <IconButton
+                        aria-label="open navigation menu"
+                        onClick={handleOpenNavMenu}
                     >
-                        <img
-                            src="/assets/app_logo.png"
-                            alt="App Title"
-                            style={{ maxWidth: '120px', maxHeight: '60px' }}
+                        <MenuIcon
+                            fontSize="large"
+                            sx={{ color: 'gray' }}
                         />
-                    </Box>
+                    </IconButton>
+                    <NavMenu
+                        navItems={navItems}
+                        anchorEl={navMenuOpen}
+                        onClose={handleCloseNavMenu}
+                        onNavigate={handleNavigation}
+                    />
+                </MobileMenuButton>
 
-                    {/* Mobile Menu */}
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="menu"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
+                {/* Logo Section */}
+                <LogoContainer onClick={() => handleNavigation('/home')}>
+                    <Logo />
+                </LogoContainer>
+
+                {/* Desktop Navigation Menu */}
+                <DesktopMenuContainer>
+                    {navItems.map((navItem) => (
+                        <NavButton
+                            key={navItem.url}
+                            onClick={() => handleNavigation(navItem.url)}
                         >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={navMenuOpen}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(navMenuOpen)}
-                            onClose={handleCloseNavMenu}
-                            sx={{ display: { xs: 'block', md: 'none' } }}
-                        >
-                            {navItems.map((navItem) => (
-                                <MenuItem
-                                    key={navItem.url}
-                                    onClick={() => handleNavigation(navItem.url)}
-                                >
-                                    <Typography sx={{ textAlign: 'center' }} color="black">
-                                        {navItem.title}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
+                            {navItem.title}
+                        </NavButton>
+                    ))}
+                </DesktopMenuContainer>
 
-                    {/* Mobile Logo and Title */}
-                    <Box
-                        sx={{
-                            display: { xs: 'flex', md: 'none' },
-                            alignItems: 'center',
-                            flexGrow: 1,
-                            cursor: 'pointer',
-                            marginRight: '4rem',
-                        }}
-                        onClick={() => handleNavigation('/')}
-                    >
-                        <img
-                            src="/assets/app_logo.png"
-                            alt="App Title"
-                            style={{ maxWidth: '100px', maxHeight: '50px' }}
-                        />
-                    </Box>
-
-                    {/* Desktop Navigation */}
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: '2rem' }}>
-                        {navItems.map((navItem) => (
-                            <Button
-                                key={navItem.url}
-                                onClick={() => handleNavigation(navItem.url)}
-                                sx={{
-                                    my: 2,
-                                    color: 'black',
-                                    display: 'block',
-                                    transition: 'transform 0.3s ease, color 0.3s ease',
-                                    '&:hover': {
-                                        transform: 'scale(1.1)',
-                                        color: '#0066CC',
-                                    },
-                                }}
-                            >
-                                {navItem.title}
-                            </Button>
-                        ))}
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
+                {/* User Profile Section */}
+                {/* <UserProfileContainer>
+                    {user.isAuthenticated && <UserProfile user={user} />}
+                </UserProfileContainer> */}
+            </Toolbar>
+        </StyledAppBar>
     );
 }
 

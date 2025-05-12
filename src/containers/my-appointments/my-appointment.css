@@ -1,0 +1,100 @@
+.ag-theme-alpine .ag-row.zebra-row {
+    background-color: #f9fafb;
+}
+
+.ag-theme-alpine .ag-row:hover {
+    background-color: #e0f7fa !important;
+}
+
+/* Cell and header font + spacing */
+.ag-theme-alpine .ag-cell {
+    font-size: 14px;
+    padding: 12px;
+}
+
+.ag-theme-alpine .ag-header-cell {
+    font-weight: 600;
+    background-color: #f0f2f5;
+}
+
+/* Custom scroll bar */
+.custom-ag-theme ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-ag-theme ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+
+.custom-ag-theme ::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* Fix header alignment and padding */
+.ag-theme-alpine .ag-header-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 6px;
+  font-weight: 600;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Filter menu dropdown styling */
+.ag-theme-alpine .ag-menu {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 8px;
+  font-family: "Roboto", sans-serif;
+}
+
+/* Filter input boxes */
+.ag-theme-alpine .ag-filter-body input,
+.ag-theme-alpine .ag-filter-body select {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  width: 100%;
+}
+
+/* Filter buttons */
+.ag-theme-alpine .ag-standard-filter .ag-filter-apply-panel button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ag-theme-alpine .ag-standard-filter .ag-filter-apply-panel button:hover {
+  background-color: #115293;
+}
+
+/* Clean up checkbox and label spacing */
+.ag-theme-alpine .ag-set-filter-item {
+  margin: 4px 0;
+}
+
+/* Resize handle hover fix */
+.ag-theme-alpine .ag-header-cell-resize {
+  background-color: transparent !important;
+}
+
+/* Make dropdown filters look like MUI */
+.ag-theme-alpine .ag-filter-select {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  padding: 4px;
+}
+

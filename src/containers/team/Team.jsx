@@ -1,18 +1,18 @@
 import React from "react";
-import { Box, Typography, Card, CardContent, Grid, CardMedia } from "@mui/material";
+import { Box } from "@mui/material";
 import DoctorDetailPage from "./DoctorDetailPage";
 
-const doctorsList = [
-  {
-    id: 1,
-    name: "Dr. Vipul Pareek",
-    gender: "male",
-    specialty: "Dermatologist",
-    degrees: "MBBS, MD (Dermatology)",
-    experience: 6,
-    imageUrl:
-      "/assets/dr_vipul.jpg",
-  }];
+// const doctorsList = [
+//   {
+//     id: 1,
+//     name: "Dr. Vipul Pareek",
+//     gender: "male",
+//     specialty: "Dermatologist",
+//     degrees: "MBBS, MD (Dermatology)",
+//     experience: 6,
+//     imageUrl:
+//       "/assets/dr_vipul.webp",
+//   }];
 
 function Team() {
   return (
