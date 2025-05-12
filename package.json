@@ -15,7 +15,6 @@
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
 		"@types/js-cookie": "^3.0.6",
-		"@types/react-dom": "^19.0.1",
 		"@types/react-swipeable": "^4.3.0",
 		"@types/styled-components": "^5.1.34",
 		"ag-grid-community": "^33.0.2",
@@ -49,7 +48,6 @@
 		"styled-components": "^6.1.13",
 		"supports-color": "^7.2.0",
 		"swiper": "^11.1.15",
-		"typescript": "^4.9.5",
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
@@ -78,10 +76,12 @@
 	},
 	"devDependencies": {
 		"@types/react": "^18.3.21",
+		"@types/react-dom": "^18.3.7",
 		"@types/react-helmet": "^6.1.11",
 		"@types/react-redux": "^7.1.34",
 		"autoprefixer": "^10.4.20",
 		"postcss": "^8.4.49",
-		"tailwindcss": "^3.4.16"
+		"tailwindcss": "^3.4.16",
+		"typescript": "^5.8.3"
 	}
 }
