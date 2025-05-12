@@ -7,11 +7,25 @@ import { trackFilterEvent, trackSearchEvent } from "../../analytics";
 import { services } from "./constants";
 
 const Services = () => {
+
+	const ALL = "All";
+	const HAIR = "Hair";
+	const SKIN = "Skin";
+	const ANTI_AGING = "Anti-Aging";
+	const imageUrlsByCategory = {
+		[ALL]: "assets/background/treatments/all.webp",
+		[HAIR]: "assets/background/treatments/hair.webp",
+		[SKIN]: "assets/background/treatments/skin.webp",
+		[ANTI_AGING]: "assets/background/treatments/anti_aging.webp"
+	}
+
 	const [selectedCategory, setSelectedCategory] = useState("");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [filteredServices, setFilteredServices] = useState(services);
 	const navigate = useNavigate();
 	const searchTimeout = useRef(null); // Reference to store the timeout for debounce
+	const [imageSrc, setImageSrc] = useState(imageUrlsByCategory[ALL]);
+
 
 	const navigateToService = (serviceName) => {
 		navigate(`/service/${serviceName}`);
@@ -57,6 +71,8 @@ const Services = () => {
 			);
 		}, 500);
 
+		setImageSrc(imageUrlsByCategory[selectedCategory] || imageUrlsByCategory[ALL]);
+
 		return () => {
 			if (searchTimeout.current) {
 				clearTimeout(searchTimeout.current);
@@ -65,113 +81,151 @@ const Services = () => {
 	}, [searchQuery, selectedCategory]);
 
 	return (
-		<Box sx={{ padding: { xs: "16px", sm: "32px" }, backgroundColor: "#fafafa", minHeight: "100vh", overflow: "auto" }}>
-			{/* Search Bar */}
-			<Box sx={{ marginBottom: "24px", display: "flex", justifyContent: "center" }}>
-				<TextField
-					label="Search Treatments"
-					variant="outlined"
-					fullWidth
-					value={searchQuery}
-					onChange={handleSearchChange}
+		<Box>
+			<Box
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					justifyContent: "center",
+					alignItems: "center",
+					width: "100%",
+					height: "100%",
+					maxHeight: "600px", // You can adjust this as per your needs
+					overflow: "hidden",
+					margin: "0 auto",
+				}}
+			>
+				<img
+					src={imageSrc}
+					alt={"Skin Follics Service Image"}
+					style={{
+						width: "100%",
+						height: "auto", // Ensures images scale proportionally
+						maxHeight: "100%", // Prevents images from exceeding container size
+						objectFit: "contain", // Ensures content is fully visible, no cropping
+						objectPosition: "center", // Centers the content
+					}}
+				/>
+			</Box>
+
+			<Box sx={{ padding: { xs: "16px", sm: "32px" }, backgroundColor: "#fafafa", minHeight: "100vh", overflow: "auto" }}>
+
+				<Box
 					sx={{
-						maxWidth: "600px",
-						borderRadius: "8px",
-						backgroundColor: "white",
-						"& .MuiOutlinedInput-root": {
-							borderRadius: "8px",
-						},
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						gap: "24px",
+						flexWrap: "wrap", // optional for responsiveness
+						marginBottom: "24px",
 					}}
-					InputProps={{
-						endAdornment: (
-							<IconButton onClick={handleClearSearch} sx={{ padding: "8px" }}>
-								<ClearIcon />
-							</IconButton>
-						),
-					}}
-				/>
-			</Box>
-
-			{/* Filter Chips */}
-			<Box sx={{ marginBottom: "24px", display: "flex", gap: "16px", justifyContent: "center" }}>
-				<Chip
-					label="Hair"
-					color={selectedCategory === "Hair" ? "primary" : "default"}
-					onClick={() => handleFilterChange("Hair")}
-					sx={{ cursor: "pointer" }}
-				/>
-				<Chip
-					label="Skin"
-					color={selectedCategory === "Skin" ? "primary" : "default"}
-					onClick={() => handleFilterChange("Skin")}
-					sx={{ cursor: "pointer" }}
-				/>
-				<Chip
-					label="Anti-Aging"
-					color={selectedCategory === "Anti-Aging" ? "primary" : "default"}
-					onClick={() => handleFilterChange("Anti-Aging")}
-					sx={{ cursor: "pointer" }}
-				/>
-				<IconButton
-					variant="contained"
-					onClick={handleClearFilter}
-					sx={{ alignSelf: "center", cursor: "pointer" }}
 				>
-					<ClearAllIcon />
-				</IconButton>
-			</Box>
-
-			{/* Service Cards */}
-			<Box sx={{ display: "flex", flexWrap: "wrap", gap: "2rem", justifyContent: "center" }}>
-				{filteredServices.length > 0 ? (
-					filteredServices.map((service) => (
-						<Card
-							key={service.name}
-							onClick={() => navigateToService(service.name)}
-							sx={{
-								width: { xs: "100%", sm: "45%", md: "30%" },
-								padding: "16px",
-								display: "flex",
-								flexDirection: "column",
-								boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-								borderRadius: "8px",
-								transition: "transform 0.3s, box-shadow 0.3s",
-								cursor: "pointer",
-								"&:hover": {
-									transform: "scale(1.05)",
-									boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
-								},
-							}}
+					{/* Filter Chips */}
+					<Box sx={{ display: "flex", gap: "16px", alignItems: "center" }}>
+						<Chip
+							label="Hair"
+							color={selectedCategory === "Hair" ? "primary" : "default"}
+							onClick={() => handleFilterChange("Hair")}
+							sx={{ cursor: "pointer" }}
+						/>
+						<Chip
+							label="Skin"
+							color={selectedCategory === "Skin" ? "primary" : "default"}
+							onClick={() => handleFilterChange("Skin")}
+							sx={{ cursor: "pointer" }}
+						/>
+						<Chip
+							label="Anti-Aging"
+							color={selectedCategory === "Anti-Aging" ? "primary" : "default"}
+							onClick={() => handleFilterChange("Anti-Aging")}
+							sx={{ cursor: "pointer" }}
+						/>
+						<IconButton
+							onClick={handleClearFilter}
+							sx={{ cursor: "pointer" }}
 						>
-							{/* Service Image */}
-							{/* <Box
-								component="img"
-								src={service.image}
-								alt={service.name}
+							<ClearAllIcon />
+						</IconButton>
+					</Box>
+
+					{/* Search Bar */}
+					<TextField
+						label="Search Treatments"
+						variant="outlined"
+						value={searchQuery}
+						onChange={handleSearchChange}
+						sx={{
+							maxWidth: "400px",
+							width: "100%",
+							backgroundColor: "white",
+							borderRadius: "8px",
+							"& .MuiOutlinedInput-root": {
+								borderRadius: "8px",
+							},
+						}}
+						InputProps={{
+							endAdornment: (
+								<IconButton onClick={handleClearSearch} sx={{ padding: "8px" }}>
+									<ClearIcon />
+								</IconButton>
+							),
+						}}
+					/>
+				</Box>
+
+
+				{/* Service Cards */}
+				<Box sx={{ display: "flex", flexWrap: "wrap", gap: "2rem", justifyContent: "center" }}>
+					{filteredServices.length > 0 ? (
+						filteredServices.map((service) => (
+							<Card
+								key={service.name}
+								onClick={() => navigateToService(service.name)}
 								sx={{
-									width: "100%",
-									height: "200px",
-									objectFit: "cover",
-									borderTopLeftRadius: "8px",
-									borderTopRightRadius: "8px",
+									width: { xs: "100%", sm: "45%", md: "30%" },
+									padding: "16px",
+									display: "flex",
+									flexDirection: "column",
+									boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+									borderRadius: "8px",
+									transition: "transform 0.3s, box-shadow 0.3s",
+									cursor: "pointer",
+									"&:hover": {
+										transform: "scale(1.05)",
+										boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
+									},
 								}}
-							/> */}
-							{/* Service Content */}
-							<Box sx={{ padding: "16px" }}>
-								<Typography variant="h6" sx={{ fontWeight: "bold", color: "text.primary", marginBottom: "8px" }}>
-									{service.name}
-								</Typography>
-								<Typography variant="body2" sx={{ color: "text.secondary" }}>
-									{service.description}
-								</Typography>
-							</Box>
-						</Card>
-					))
-				) : (
-					<Typography variant="h6" sx={{ color: "text.secondary", textAlign: "center", width: "100%" }}>
-						No services found.
-					</Typography>
-				)}
+							>
+								{/* Service Image */}
+								{service.treatmentUrl && <Box
+									component="img"
+									src={service.treatmentUrl}
+									alt={service.shortDescription}
+									sx={{
+										width: "100%",
+										height: "200px",
+										objectFit: "cover",
+										borderTopLeftRadius: "8px",
+										borderTopRightRadius: "8px",
+									}}
+								/>}
+								{/* Service Content */}
+								<Box sx={{ padding: "16px" }}>
+									<Typography variant="h6" sx={{ fontWeight: "bold", color: "text.primary", marginBottom: "8px" }}>
+										{service.name}
+									</Typography>
+									<Typography variant="body2" sx={{ color: "text.secondary" }}>
+										{service.description}
+									</Typography>
+								</Box>
+							</Card>
+						))
+					) : (
+						<Typography variant="h6" sx={{ color: "text.secondary", textAlign: "center", width: "100%" }}>
+							No services found.
+						</Typography>
+					)}
+				</Box>
 			</Box>
 		</Box>
 	);

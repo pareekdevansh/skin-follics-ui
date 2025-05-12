@@ -70,7 +70,7 @@ const SideBar = () => {
                         cursor: "pointer",
                         transform: hoveredIcon === index ? "scale(1.4)" : "scale(1.1)",
                         transition: "transform 0.3s ease, background-color 0.3s ease",
-                        backgroundColor: hoveredIcon === index ? "rgba(255, 255, 255, 0.2)" : "transparent",
+                        // backgroundColor: hoveredIcon === index ? "rgba(255, 255, 255, 0.2)" : "transparent",
                         borderRadius: "25%",
                         padding: "10px",
                         // boxShadow: hoveredIcon === index ? "1px 1px 0px rgba(0, 0, 0, 0.2)" : "none",
@@ -85,6 +85,7 @@ const SideBar = () => {
                             borderRadius: "50%",
                             padding: "4px",
                             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+                            backgroundColor: hoveredIcon === index ? "rgba(255, 255, 255, 0.2)" : "transparent",
                             transition: "box-shadow 0.3s ease",
                             "&:hover": {
                                 boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",

@@ -7,8 +7,9 @@ import UserProfile from './UserProfile';
 import { navItems } from './constants';
 import { IconButton } from '@mui/material';
 
+
 const StyledAppBar = styled.header`
-    background: var(--navbar-color);
+    background: var(--navbar-color, linear-gradient(to right, #2c2c2c, #1f1f1f));
     color: black;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
     padding: 0 5%;
@@ -150,9 +151,9 @@ const NavBar = () => {
                 </DesktopMenuContainer>
 
                 {/* User Profile Section */}
-                <UserProfileContainer>
+                {/* <UserProfileContainer>
                     {user.isAuthenticated && <UserProfile user={user} />}
-                </UserProfileContainer>
+                </UserProfileContainer> */}
             </Toolbar>
         </StyledAppBar>
     );

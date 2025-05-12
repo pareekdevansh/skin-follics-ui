@@ -10,9 +10,11 @@ import GoogleReviews from "./google-review/GoogleReviews";
 
 const heroUrls =
 	[
-		{ type: "image", src: "assets/images/bg_skin_follix.webp", alt: "Image at bg_skin_follix.webp" },
-		{ type: "image", src: "assets/images/dr_vipul.webp", alt: "Image at dr_vipul.webp" },
-		{ type: "image", src: "assets/images/awards_wall.webp", alt: "Image at awards_wall.webp" }
+		{type : "image", src: "assets/background/home/bg_skin_follics_1.webp", alt: "Image at skin_follics.webp" },
+		{ type: "image", src: "assets/background/home/bg_skin_follics_2.webp", alt: "Image at bg_skin_follics_2" },
+		{ type: "image", src: "assets/background/home/bg_skin_follics_3.webp", alt: "Image at bg_skin_follics_3" },
+		{ type: "image", src: "assets/background/home/bg_skin_follics_4.webp", alt: "Image at bg_skin_follics_4" },
+		{ type: "image", src: "assets/background/home/bg_skin_follics_5.webp", alt: "Image at bg_skin_follics_5" }
 	]
 
 
