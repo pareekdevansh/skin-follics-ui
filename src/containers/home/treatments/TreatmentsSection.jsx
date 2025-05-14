@@ -9,7 +9,7 @@ export default function TreatmentsList() {
   const navigate = useNavigate();
   const navigateToTreatments = () => {
     navigate("/treatments");
-}
+  }
   return (
     <Box sx={{ marginBottom: "32px", paddingX: '5%' }}>
       {/* Flex container for Title and Button */}
@@ -36,90 +36,108 @@ export default function TreatmentsList() {
         >
           <ArrowForwardIosOutlined />
         </IconButton>
-          
+
       </Box>
 
-      {/* Treatments Cards */}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateRows: "repeat(2, auto)", // Two rows
-          gridAutoFlow: "column", // Items flow horizontally
-          gap: { xs: "16px", sm: "24px", md: "32px" }, // Adjust gap for different screen sizes
-          paddingY: "1rem",
-          // paddingX: { xs: "5%", md: "10%" }, // Responsive horizontal padding
-          overflowX: "auto", // Enable horizontal scrolling
-          "&::-webkit-scrollbar": { // Custom scrollbar styling
-            height: "8px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            borderRadius: "4px",
-          },
-        }}
-      >
-        {treatments.map((treatment, index) => (
-          <Card
-            key={index}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "0px 0px 8px 0px",
-              backgroundColor: "#ffffff",
-              borderRadius: "12px",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-              transition: "transform 0.3s ease, background-color 0.3s ease",
-              cursor: "pointer",
-              minWidth: { xs: "180px", sm: "220px", md: "250px" }, // Adjust card width for screen sizes
-              maxWidth: { xs: "200px", sm: "260px", md: "300px" }, // Adjust card max width for screen sizes
-              "&:hover": {
-                transform: "scale(1.05)",
-                backgroundColor: "rgba(0, 0, 0, 0.05)",
-                "& .read-more-button": {
-                  display: "block",
-                },
-              },
-            }}
-          >
-            <CardMedia
-                component="img"
-                image={treatment.treatmentUrl}
-                alt={treatment.name}
-                sx={{
-                    height: "250px", // Adjust height for responsiveness
-                    width: "400px",
-                    borderRadius: "4px",
-                    objectFit: "cover",
-                }}
-            />
-            <CardContent sx={{ textAlign: "center" }}>
-              <Typography variant="h6" sx={{ fontWeight: "bold", marginBottom: "8px" }}>
-                {treatment.name}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                {treatment.shortDescription}
-              </Typography>
-            </CardContent>
-            {/* Uncomment this button if navigation is required */}
-            {/* <Button
-                className="read-more-button"
-                variant="text"
-                sx={{
-                    alignSelf: "center",
-                    marginTop: "16px",
-                    display: "none",
-                    color: "primary.main",
-                    fontWeight: "bold",
-                }}
-                onClick={() => {
-                    window.location.href = `/treatments/${treatment.treatmentUrl}`;
-                }}
+      <Box sx={{ paddingY: "2rem", paddingX: { xs: "8px", md: "16px" } }}>
+        {/* Loop through treatment categories */}
+        {["Skin", "Hair", "Anti-Aging"].map((category) => (
+          <Box key={category} sx={{ marginBottom: "2rem" }}>
+            {/* Category Heading */}
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                marginBottom: "1rem",
+                textTransform: "capitalize",
+                color: "text.primary",
+              }}
             >
-                Read More →
-            </Button> */}
-          </Card>
+              {category} Treatments
+            </Typography>
+
+            {/* Horizontal Scrollable Row */}
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", // Responsive columns
+                gap: { xs: "16px", sm: "24px", md: "32px" }, // Adjust gap
+                overflowX: "auto", // Enable horizontal scrolling
+                paddingY: "1rem",
+                "&::-webkit-scrollbar": { height: "8px" }, // Custom scrollbar styling
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: "rgba(0, 0, 0, 0.2)",
+                  borderRadius: "4px",
+                },
+              }}
+            >
+              {treatments
+                .filter((treatment) => treatment.category === category) // Filter treatments by category
+                .map((treatment, index) => (
+                  <Card
+                    key={index}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "0px 0px 8px 0px",
+                      backgroundColor: "#ffffff",
+                      borderRadius: "12px",
+                      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                      transition: "transform 0.3s ease, background-color 0.3s ease",
+                      cursor: "pointer",
+                      minWidth: { xs: "250px" },
+                      maxWidth: { xs: "300px" },
+                      "&:hover": {
+                        transform: "scale(1.05)",
+                        backgroundColor: "rgba(0, 0, 0, 0.05)",
+                        "& .read-more-button": {
+                          display: "block",
+                        },
+                      },
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      image={treatment.treatmentUrl}
+                      alt={treatment.name}
+                      sx={{
+                        height: "250px",
+                        width: "400px",
+                        borderRadius: "4px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <CardContent sx={{ textAlign: "center" }}>
+                      <Typography variant="h6" sx={{ fontWeight: "bold", marginBottom: "8px" }}>
+                        {treatment.name}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {treatment.shortDescription}
+                      </Typography>
+                    </CardContent>
+                    {/* Uncomment this button if navigation is required */}
+                    {/* <Button
+                  className="read-more-button"
+                  variant="text"
+                  sx={{
+                      alignSelf: "center",
+                      marginTop: "16px",
+                      display: "none",
+                      color: "primary.main",
+                      fontWeight: "bold",
+                  }}
+                  onClick={() => {
+                      window.location.href = `/treatments/${treatment.treatmentUrl}`;
+                  }}
+              >
+                  Read More →
+              </Button> */}
+                  </Card>
+                ))}
+            </Box>
+          </Box>
         ))}
       </Box>
 
