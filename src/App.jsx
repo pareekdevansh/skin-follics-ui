@@ -7,6 +7,7 @@ import useAnalytics from "./hooks/useAnalytics";
 import { useEffect } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import SideBar from "./components/sidebar/SideBar";
+import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
 			<NavBar />
 			<AppRoutes />
 			<Footer />
+			<ScrollToTop />
 		</div>
 	);
 }

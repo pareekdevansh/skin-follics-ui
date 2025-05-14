@@ -17,7 +17,7 @@ const sidebarItems = [
         },
     },
     {
-        icon: <FaPhone size={24} color="#25D366" />,
+        icon: <FaPhone size={24} color="#1976d2" />,
         label: "Call Us",
         // details: "+91 1234567890",
         onClick: () => {
@@ -81,7 +81,7 @@ const SideBar = () => {
                             key={index}
                             onClick={item.onClick}
                             sx={{
-                                transform: hoveredIcon === index ? "scale(1.4)" : "scale(1.15)",
+                                transform: hoveredIcon === index ? "scale(1.3)" : "scale(1)",
                                 transition: "transform 0.3s ease",
                                 backgroundColor: "white",
                                 borderRadius: "50%",
@@ -109,7 +109,10 @@ const SideBar = () => {
                         color="primary"
                         size="medium"
                         onClick={toggleFab}
-                        sx={{ backgroundColor: "#25D366", color: "#fff" }}
+                        sx={{
+                            backgroundColor: "#1976d2", 
+                            color: "#fff"
+                        }}
                     >
                         {fabOpen ? <MdClose /> : <MdMenu />}
                     </Fab>
@@ -145,8 +148,9 @@ const SideBar = () => {
                         ))}
                     </Box>
                 </Box>
-            )}
-        </Box>
+            )
+            }
+        </Box >
 
     );
 };
