@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, CardContent, Typography, IconButton, Button } from "@mui/material";
+import { Box, Card, CardContent, Typography, IconButton, Button, CardMedia } from "@mui/material";
 import { ArrowForward as ArrowForwardIcon, ArrowForwardIosOutlined } from "@mui/icons-material"; // Import the icon
 import { services as treatments } from "../../services/constants";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +47,7 @@ export default function TreatmentsList() {
           gridAutoFlow: "column", // Items flow horizontally
           gap: { xs: "16px", sm: "24px", md: "32px" }, // Adjust gap for different screen sizes
           paddingY: "1rem",
-          paddingX: { xs: "5%", md: "10%" }, // Responsive horizontal padding
+          // paddingX: { xs: "5%", md: "10%" }, // Responsive horizontal padding
           overflowX: "auto", // Enable horizontal scrolling
           "&::-webkit-scrollbar": { // Custom scrollbar styling
             height: "8px",
@@ -66,7 +66,7 @@ export default function TreatmentsList() {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "space-between",
-              padding: "16px",
+              padding: "0px 0px 8px 0px",
               backgroundColor: "#ffffff",
               borderRadius: "12px",
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
@@ -83,19 +83,17 @@ export default function TreatmentsList() {
               },
             }}
           >
-            {/* Uncomment this block if images are to be displayed */}
-            {/* <CardMedia
+            <CardMedia
                 component="img"
-                image={treatment.image}
+                image={treatment.treatmentUrl}
                 alt={treatment.name}
                 sx={{
-                    height: "150px", // Adjust height for responsiveness
-                    width: "150px",
-                    borderRadius: "8px",
-                    marginBottom: "16px",
+                    height: "250px", // Adjust height for responsiveness
+                    width: "400px",
+                    borderRadius: "4px",
                     objectFit: "cover",
                 }}
-            /> */}
+            />
             <CardContent sx={{ textAlign: "center" }}>
               <Typography variant="h6" sx={{ fontWeight: "bold", marginBottom: "8px" }}>
                 {treatment.name}
