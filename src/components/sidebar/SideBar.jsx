@@ -40,12 +40,9 @@ const SideBar = () => {
     return (
         <Box
             sx={{
-                width: { lg: "100px", md: "80px", sm: "60px", xs: "60px" },
-                height: "fit-content",
+                // width: { lg: "100px", md: "80px", sm: "60px", xs: "60px" },
+                height: "auto",
                 position: "fixed",
-                bottom: 0,
-                right: 0,
-                transform: "translateY(-25%)",
                 padding: "12px",
                 display: "flex",
                 flexDirection: "column",
@@ -55,58 +52,34 @@ const SideBar = () => {
                 borderRadius: "8px",
                 overflow: "hidden",
                 zIndex: 10,
-                gap: "1rem",
+                bottom: "12px",
+                right : "16px",
+                gap: "1.5rem",
             }}
         >
             {sidebarItems.map((item, index) => (
-                <Box
+                <IconButton
                     key={index}
                     sx={{
                         display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "100%",
                         cursor: "pointer",
-                        transform: hoveredIcon === index ? "scale(1.4)" : "scale(1.1)",
+                        transform: hoveredIcon === index ? "scale(1.5)" : "scale(1.25)",
                         transition: "transform 0.3s ease, background-color 0.3s ease",
-                        // backgroundColor: hoveredIcon === index ? "rgba(255, 255, 255, 0.2)" : "transparent",
-                        borderRadius: "25%",
-                        padding: "10px",
-                        // boxShadow: hoveredIcon === index ? "1px 1px 0px rgba(0, 0, 0, 0.2)" : "none",
+                        backgroundColor: hoveredIcon === index ? "rgba(255, 255, 255, 0.2)" : "transparent",
+                        borderRadius: "50%",
+                        boxShadow: hoveredIcon === index ? "1px 1px 0px rgba(0, 0, 0, 0.2)" : "none",
+                        backgroundColor: "white",
+                        "&:hover": {
+                            // boxShadow: "0px 1px 12px rgba(0, 0, 0, 0.3)"
+                        },
                     }}
                     onMouseEnter={() => handleMouseEnter(index)}
                     onMouseLeave={handleMouseLeave}
                     onClick={item.onClick}
+                    
                 >
-                    <IconButton
-                        sx={{
-                            backgroundColor: "white",
-                            borderRadius: "50%",
-                            padding: "4px",
-                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                            backgroundColor: hoveredIcon === index ? "rgba(255, 255, 255, 0.2)" : "transparent",
-                            transition: "box-shadow 0.3s ease",
-                            "&:hover": {
-                                boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
-                            },
-                        }}
-                    >
-                        {item.icon}
-                    </IconButton>
-                    {/* <Typography
-                        variant="caption"
-                        sx={{
-                            fontSize: "14px",
-                            textAlign: "center",
-                            color: "white",
-                            marginTop: "5px",
-                        }}
-                    >
-                        {item.label}
-                    </Typography> */}
-                    {/* <Divider sx={{ width: "80%", marginTop: "4px" }} /> */}
-                </Box>
+                    {item.icon}
+                </IconButton>
             ))}
         </Box>
     );

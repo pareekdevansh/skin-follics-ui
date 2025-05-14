@@ -39,13 +39,13 @@ export default function TreatmentsList() {
 
       </Box>
 
-      <Box sx={{ paddingY: "2rem", paddingX: { xs: "8px", md: "16px" } }}>
+      <Box sx={{ paddingY: "2rem", paddingX: "-5%" }}>
         {/* Loop through treatment categories */}
-        {["Skin", "Hair", "Anti-Aging"].map((category) => (
+        {["Hair", "Skin", "Anti-Aging"].map((category) => (
           <Box key={category} sx={{ marginBottom: "2rem" }}>
             {/* Category Heading */}
             <Typography
-              variant="h4"
+              variant="h5"
               sx={{
                 fontWeight: "bold",
                 marginBottom: "1rem",
@@ -59,10 +59,9 @@ export default function TreatmentsList() {
             {/* Horizontal Scrollable Row */}
             <Box
               sx={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", // Responsive columns
-                gap: { xs: "16px", sm: "24px", md: "32px" }, // Adjust gap
-                overflowX: "auto", // Enable horizontal scrolling
+                display: "flex",               // Flexbox to align items horizontally
+                overflowX: "auto",             // Enable horizontal scrolling
+                gap: { xs: "16px", sm: "24px", md: "32px" }, // Adjust gap for different screen sizes
                 paddingY: "1rem",
                 "&::-webkit-scrollbar": { height: "8px" }, // Custom scrollbar styling
                 "&::-webkit-scrollbar-thumb": {
@@ -87,8 +86,8 @@ export default function TreatmentsList() {
                       boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
                       transition: "transform 0.3s ease, background-color 0.3s ease",
                       cursor: "pointer",
-                      minWidth: { xs: "250px" },
-                      maxWidth: { xs: "300px" },
+                      minWidth: { xs: "250px" }, // Adjust card width for screen sizes
+                      maxWidth: { xs: "300px" }, // Adjust card max width for screen sizes
                       "&:hover": {
                         transform: "scale(1.05)",
                         backgroundColor: "rgba(0, 0, 0, 0.05)",
