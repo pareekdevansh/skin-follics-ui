@@ -68,6 +68,7 @@ const Carousel: React.FC<CarouselProps> = ({ carouselItems, autoplay = true, aut
                 minWidth: "100%",
                 height: "100%",
                 overflow: "hidden",
+                padding: "0",
             }}
         >
             {/* Carousel Content */}

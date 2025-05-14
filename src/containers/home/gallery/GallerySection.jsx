@@ -39,7 +39,7 @@ export default function GallerySection() {
         navigate("/gallery");
     }
     return (
-        <Box sx={{ marginBottom: "32px", paddingX: '5%', }}>
+        <Box sx={{ paddingX: '5%', }}>
             {/* Flex container for Title and Button */}
             <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center", marginBottom: "16px" }}>
                 <Typography
@@ -67,13 +67,18 @@ export default function GallerySection() {
                 </IconButton>
             </Box>
 
-            <Card sx={{ boxShadow: 3, borderRadius: 2, overflow: "hidden" }}>
-                <CardContent>
+            <Card sx={{ boxShadow: 3, borderRadius: 2, overflow: "hidden", padding: "0px" }}>
+                <CardContent sx={{
+                    padding: "0px",
+                    "&:last-child": {
+                        paddingBottom: "0"
+                    }
+                }}>
 
                     {/* Gallery Content with Carousel and Description */}
                     <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: "24px" }}>
                         {/* Carousel Component for Gallery Images */}
-                        <Box sx={{ width: { xs: "100%", md: "50%" }, paddingBottom: { xs: "24px", md: "0" } }}>
+                        <Box sx={{ width: { xs: "100%", md: "50%" } }}>
                             <Carousel carouselItems={galleryPics} />
                         </Box>
 
