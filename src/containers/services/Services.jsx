@@ -180,7 +180,7 @@ const Services = () => {
 						filteredServices.map((service) => (
 							<Card
 								key={service.name}
-								onClick={() => navigateToService(service.name)}
+								// onClick={() => navigateToService(service.name)}
 								sx={{
 									width: { xs: "100%", sm: "45%", md: "30%" },
 									padding: "16px",
@@ -189,7 +189,7 @@ const Services = () => {
 									boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
 									borderRadius: "8px",
 									transition: "transform 0.3s, box-shadow 0.3s",
-									cursor: "pointer",
+									// cursor: "pointer",
 									"&:hover": {
 										transform: "scale(1.05)",
 										boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
