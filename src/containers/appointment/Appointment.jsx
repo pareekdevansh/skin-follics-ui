@@ -9,11 +9,14 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { format, parse } from "date-fns";
 import AppointmentService from "../../services/api/appointmentService";
 import TreatmentService from "../../services/api/treatmentService";
+import { services } from "../services/constants";
+import { generalServices } from "./constants";
+import { CONTACT_PHONE_NUMBER } from "../../constants/contact-info";
 
 const AppointmentBookingForm = () => {
 	const [formData, setFormData] = useState({
 		fullName: "",
-		phone: "",
+		// phone: "",
 		treatmentCategory: "",
 		treatmentName: "",
 		appointmentDate: new Date(),
@@ -29,9 +32,22 @@ const AppointmentBookingForm = () => {
 	const [treatments, setTreatments] = useState([]);
 	const [treatmentNames, setTreatmentNames] = useState([]);
 	const timeSlots = [
-		"11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM",
-		"12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM",
-		"01:00 PM", "01:15 PM", "01:30 PM", "01:45 PM",
+		// "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM",
+		// "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM",
+		// "01:00 PM", "01:15 PM", "01:30 PM", "01:45 PM",
+		// "02:00 PM", "02:15 PM", "02:30 PM", "02:45 PM",
+		// "03:00 PM", "03:15 PM", "03:30 PM", "03:45 PM",
+		// "04:00 PM", "04:15 PM", "04:30 PM", "04:45 PM",
+		// "05:00 PM", "05:15 PM", "05:30 PM", "05:45 PM",
+		// "06:00 PM", "06:15 PM", "06:30 PM", "06:45 PM",
+		"11:00 AM", "11:30 AM",
+		"12:00 PM", "12:30 PM",
+		"01:00 PM", "01:30 PM",
+		"02:00 PM", "02:30 PM",
+		"03:00 PM", "03:30 PM",
+		"04:00 PM", "04:30 PM",
+		"05:00 PM", "05:30 PM",
+		"06:00 PM", "06:30 PM"
 	];
 
 
@@ -49,7 +65,7 @@ const AppointmentBookingForm = () => {
 	const validateForm = () => {
 		const newErrors = {};
 		if (!formData.fullName) newErrors.fullName = "Full name is required.";
-		if (!formData.phone || formData.phone.length !== 10) newErrors.phone = "Phone number must be 10 digits.";
+		// if (!formData.phone || formData.phone.length !== 10) newErrors.phone = "Phone number must be 10 digits.";
 		if (!formData.treatmentCategory) newErrors.treatmentCategory = "Please select a treatment category.";
 		if (!formData.appointmentDate) newErrors.appointmentDate = "Date is required.";
 		if (!formData.appointmentTime) newErrors.appointmentTime = "Time is required.";
@@ -63,27 +79,46 @@ const AppointmentBookingForm = () => {
 		setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
+	const groupAndSortByCategory = (servicesList) => {
+		return servicesList.reduce((map, service) => {
+			if (!map[service.category]) {
+				map[service.category] = [];
+			}
+			map[service.category].push(service);
+			return map;
+		}, {});
+	};
+
 	useEffect(() => {
+		console.log("hello")
 		const fetchTreatments = async () => {
 			try {
-				const response = await treatmentService.getAllTreatments();
-				const treatmentsMap = new Map();
-				console.log(response);
+				// const response = await treatmentService.getAllTreatments();
+
+				const allServices = [...services, ...generalServices];
+				allServices.sort((a, b) => a.name.localeCompare(b.name));
+
+				const response = groupAndSortByCategory(allServices);
+
+
+				// console.log('response: ' + JSON.stringify(response));
+				const map = new Map();
 				const treatments = [];
+
 				Object.keys(response).forEach((category) => {
 					treatments.push(category);
-					response[category].forEach((treatment) => {
-						const { name } = treatment;
-						if (!treatmentsMap.has(category)) {
-							treatmentsMap.set(category, []);
+					response[category].forEach(({ name }) => {
+						if (!map.has(category)) {
+							map.set(category, []);
 						}
-						treatmentsMap.get(category).push(name);
+						map.get(category).push(name);
 					});
 				});
+
 				setTreatments(treatments);
-				console.log('treatment categories: ', treatments);
-				setTreatmentsMap(treatmentsMap);
-				console.log(treatmentsMap);
+				setTreatmentsMap(map);
+				// console.log("treatment categories:", treatments);
+				// console.log("treatmentsMap:", JSON.stringify(Object.fromEntries(map)));
 			} catch (error) {
 				console.error("Failed to fetch treatments:", error);
 			}
@@ -95,7 +130,7 @@ const AppointmentBookingForm = () => {
 		// using formData's current treatmentCategory to get treatment names
 		if (!formData.treatmentCategory) return;
 		if (!treatmentsMap.has(formData.treatmentCategory)) return;
-		setTreatmentNames(treatmentsMap.get(formData.treatmentCategory));
+		setTreatmentNames([...treatmentsMap.get(formData.treatmentCategory)]);
 		console.log('treatment names: ', treatmentNames);
 	}, [treatments, formData.treatmentCategory]);
 
@@ -104,25 +139,38 @@ const AppointmentBookingForm = () => {
 		if (validateForm()) {
 			setLoading(true);
 			try {
-				const formattedDate = format(formData.appointmentDate, "MM-dd-yyyy");
+				const formattedDate = format(formData.appointmentDate, "dd-MM-yyyy");
 				const form = {
 					...formData,
 					appointmentDate: formattedDate,
 				};
 				console.log(JSON.stringify(form, null, 2));
-				const response = await appointmentService.addAppointment(form);
-				if (response && response.status === 200) {
-					setSuccessDialogOpen(true);
-					setFormData({
-						fullName: "",
-						phone: "",
-						treatmentCategory: "",
-						treatmentName: "",
-						appointmentDate: new Date(),
-						appointmentTime: "",
-					});
-					// TODO: Navigate to booked treatments page
-				}
+				// const response = await appointmentService.addAppointment(form);
+				// if (response && response.status === 200) {
+				// 	setSuccessDialogOpen(true);
+				// 	setFormData({
+				// 		fullName: "",
+				// 		// phone: "",
+				// 		treatmentCategory: "",
+				// 		treatmentName: "",
+				// 		appointmentDate: new Date(),
+				// 		appointmentTime: "",
+				// 	});
+				// 	// TODO: Navigate to booked treatments page
+				// }
+				// send whatsapp message with form data 
+				const message = `Appointment Request Details:\nName: ${form.fullName}\nCategory: ${form.treatmentCategory}\nTreatment: ${form.treatmentName}\nDate: ${form.appointmentDate}\nTime: ${form.appointmentTime}`;
+				const url = `https://api.whatsapp.com/send?phone=+91${CONTACT_PHONE_NUMBER}&text=${encodeURIComponent(message)}`;
+				setFormData({
+					fullName: "",
+					// phone: "",
+					treatmentCategory: "",
+					treatmentName: "",
+					appointmentDate: new Date(),
+					appointmentTime: "",
+				});
+				window.open(url, "_blank");
+
 			} catch (error) {
 				console.error("Failed to create appointment:", error);
 			} finally {
@@ -163,7 +211,7 @@ const AppointmentBookingForm = () => {
 							</Grid>
 
 							{/* Phone */}
-							<Grid item xs={12}>
+							{/* <Grid item xs={12}>
 								<TextField
 									label="Phone Number"
 									name="phone"
@@ -176,7 +224,7 @@ const AppointmentBookingForm = () => {
 									helperText={errors.phone}
 									fullWidth
 								/>
-							</Grid>
+							</Grid> */}
 
 							{/* Treatment Category */}
 							<Grid item xs={12}>
@@ -221,17 +269,20 @@ const AppointmentBookingForm = () => {
 
 
 							{/* Date */}
-							<Grid item xs={12}>
-								<LocalizationProvider dateAdapter={AdapterDateFns}>
-									<DatePicker
-										label="Preferred Appointment Date"
-										value={formData.appointmentDate}
-										onChange={(newValue) => setFormData((prev) => ({ ...prev, appointmentDate: newValue }))}
-										renderInput={(params) => (
-											<TextField {...params} fullWidth error={!!errors.appointmentDate} helperText={errors.appointmentDate} />
-										)}
-									/>
-								</LocalizationProvider>
+							<Grid item xs={12} >
+								<FormControl fullWidth>
+									<LocalizationProvider dateAdapter={AdapterDateFns}>
+										<DatePicker
+											label="Preferred Appointment Date"
+											value={formData.appointmentDate}
+											onChange={(newValue) => setFormData((prev) => ({ ...prev, appointmentDate: newValue }))}
+											renderInput={(params) => (
+												<TextField {...params} fullWidth error={!!errors.appointmentDate} helperText={errors.appointmentDate} />
+											)}
+											inputFormat="dd-MM-yyyy"
+										/>
+									</LocalizationProvider>
+								</FormControl>
 							</Grid>
 
 							{/* Appointment Time */}
@@ -263,7 +314,7 @@ const AppointmentBookingForm = () => {
 				<DialogContent>
 					<Grid container spacing={2}>
 						{timeSlots.map((slot, index) => {
-							const availability = index % 5 === 0 ? "busy" : index % 3 === 0 ? "limited" : "available";
+							const availability = "available";
 							return (
 								<Grid item xs={3} key={index}>
 									<Button
