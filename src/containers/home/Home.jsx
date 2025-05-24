@@ -59,31 +59,6 @@ const Home = () => {
 
 				<ContactUsSection />
 
-				<Button
-					variant="contained"
-					color="primary"
-					size="large"
-					startIcon={<CalendarTodayIcon />}
-					onClick={navigateToAppointments}
-					sx={{
-						fontWeight: 'bold',
-						fontSize: '1.5rem',
-						padding: '12px 5%',
-						borderRadius: '12px',
-						textTransform: 'none',
-						boxShadow: '0 8px 15px rgba(0, 123, 255, 0.3)',
-						transition: 'all 0.3s ease',
-						'&:hover': {
-							backgroundColor: 'primary.dark',
-							boxShadow: '0 8px 20px rgba(0, 123, 255, 0.5)',
-							transform: 'translateY(-2px)',
-						},
-					}}
-					aria-label="Book an appointment now"
-				>
-					Book An Appointment Now
-				</Button>
-
 			</Box>
 		</Box>
 
