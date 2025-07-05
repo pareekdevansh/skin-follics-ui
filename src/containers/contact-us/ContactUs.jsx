@@ -3,16 +3,17 @@ import { Box, Typography, Stack, CardContent, IconButton, Tooltip, Grid, useThem
 import { LOCATION_COORDINATES_GOOGLE_MAP } from "../../constants/address";
 import ContactItems from "./ContactItems";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { SOCIAL_URLS } from "../../constants/social-urls";
 
 const SocialMediaIcons = () => {
 	const theme = useTheme();
 
 	const socialLinks = [
-		{ icon: <FaFacebook size={32} />, url: "https://www.facebook.com/profile.php?id=61570257015162", name: "Facebook", callToAction: "Follow us on Facebook" },
-		{ icon: <FaInstagram size={32} />, url: "https://instagram.com/skinfollics", name: "Instagram", callToAction: "Follow us on Instagram" },
-		{ icon: <FaTwitter size={32} />, url: "https://twitter.com/skinfollics", name: "Twitter", callToAction: "Follow us on Twitter" },
-		{ icon: <FaLinkedin size={32} />, url: "https://linkedin.com/skinfollics", name: "LinkedIn", callToAction: "Follow us on LinkedIn" },
-		{ icon: <FaYoutube size={32} />, url: "https://www.youtube.com/@dr.vipul.", name: "YouTube", callToAction: "Subscribe us on YouTube" },
+		{ icon: <FaFacebook size={32} />, url: SOCIAL_URLS.facebook, name: "Facebook", callToAction: "Follow us on Facebook" },
+		{ icon: <FaInstagram size={32} />, url: SOCIAL_URLS.instagram, name: "Instagram", callToAction: "Follow us on Instagram" },
+		{ icon: <FaTwitter size={32} />, url: SOCIAL_URLS.twitter, name: "Twitter", callToAction: "Follow us on Twitter" },
+		{ icon: <FaLinkedin size={32} />, url: SOCIAL_URLS.linkedin, name: "LinkedIn", callToAction: "Follow us on LinkedIn" },
+		{ icon: <FaYoutube size={32} />, url: SOCIAL_URLS.youtube, name: "YouTube", callToAction: "Subscribe us on YouTube" },
 	];
 	return (
 		<Stack direction="column" spacing={3} justifyContent="flex-start" sx={{ alignItems: "flex-start", marginTop: 2 }}>

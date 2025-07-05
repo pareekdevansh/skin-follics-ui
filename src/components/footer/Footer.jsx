@@ -7,6 +7,7 @@ import { FULL_ADDRESS, LOCATION_LINK } from "../../constants/address";
 import { CONTACT_PHONE_NUMBER } from "../../constants/contact-info";
 import { footerLinkItems } from "./constants";
 import { trackCallEvent, trackLocationClick } from "../../analytics";
+import { SOCIAL_URLS } from "../../constants/social-urls";
 
 const FooterContainer = styled(Box)(({ theme }) => ({
   background: `linear-gradient(180deg, ${theme?.palette?.grey?.[800] || "#333333"} 0%, ${theme?.palette?.grey?.[900] || "#1a1a1a"
@@ -61,11 +62,11 @@ const FooterBottom = styled(Box)(({ theme }) => ({
 
 const SocialMediaIcons = () => {
   const socialLinks = [
-    { icon: <FaFacebook size={24} />, url: "https://www.facebook.com/profile.php?id=61570257015162", name: "Facebook" },
-    { icon: <FaInstagram size={24} />, url: "https://instagram.com/skinfollics", name: "Instagram" },
-    { icon: <FaTwitter size={24} />, url: "https://twitter.com/skinfollics", name: "Twitter" },
-    { icon: <FaLinkedin size={24} />, url: "https://linkedin.com/skinfollics", name: "LinkedIn" },
-    { icon: <FaYoutube size={24} />, url: "https://www.youtube.com/@dr.vipul.", name: "YouTube" },
+    { icon: <FaFacebook size={24} />, url: SOCIAL_URLS.facebook, name: "Facebook" },
+    { icon: <FaInstagram size={24} />, url: SOCIAL_URLS.instagram, name: "Instagram" },
+    { icon: <FaTwitter size={24} />, url: SOCIAL_URLS.twitter, name: "Twitter" },
+    { icon: <FaLinkedin size={24} />, url: SOCIAL_URLS.linkedin, name: "LinkedIn" },
+    { icon: <FaYoutube size={24} />, url: SOCIAL_URLS.youtube, name: "YouTube" },
   ];
 
   return (
