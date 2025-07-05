@@ -18,7 +18,6 @@ const PrivacyPolicy = lazy(() => import("../containers/privacy-policy"));
 const Gallery = lazy(() => import("../containers/gallery"));
 const TermsOfUse = lazy(() => import("../containers/terms-of-use"));
 const ManageAppointmentsAdmin = lazy(() => import("../containers/admin/appointments"));
-const TestContainer = lazy(() => import("../containers/test/Test"));
 const generalKeywords = 'skin clinic near me, skin clinic in Delhi, best skin clinic in Delhi, best dermatologist in Delhi, skin care clinic in Delhi, dermat near me, skin clinic near me, acne treatment, skin specialist near me, skin doctor near me, skin clinic in Malviya Nagar, skincare clinic, Delhi, Malviya Nagar, Dr. Vipul Pareek, ${APP_NAME}, hair transplant, laser treatments, best dermatology clinic in Malviya Nagar, best dermatology clinic near me, Skin Follics';
 export const routes = [
     // {
@@ -213,12 +212,6 @@ export const routes = [
         component: ManageAppointmentsAdmin,
         name: "Manage Appointments",
 
-    },
-    {
-        path: "test",
-        component: TestContainer,
-        name: "Test",
-        visibleToRouter: true
     },
     {
         path: "*",

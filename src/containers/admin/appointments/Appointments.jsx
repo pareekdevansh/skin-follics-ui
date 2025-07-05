@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Button, Grid, TextField, Box } from '@mui/material';
+import { Container, Typography, Button, Grid, TextField, Box, Icon } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -86,7 +86,7 @@ const ManageAppointmentsAdmin = () => {
         setLoading(true);
         setTimeout(() => {
             setFilteredData(bookingsData); // Simulating data load
-            setLastRefreshTime(new Date().toLocaleString()); // Update the last refresh time
+            setLastRefreshTime(new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true }));
             setLoading(false);
         }, 1000);
     };
@@ -111,68 +111,39 @@ const ManageAppointmentsAdmin = () => {
 
     return (
         <Container maxWidth="xl" sx={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "flex-start", marginTop: "2rem" }}>
-            <Typography variant="h4" align="center" gutterBottom color="primary">
-                Admin - View All Bookings
-            </Typography>
-
-            <Box sx={{ padding: 2 }}>
-                <Grid container spacing={3} justifyContent="center">
-                    <Grid item xs={12} md={6}>
-                        {/* Refresh Button */}
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleRefreshData}
-                            sx={{
-                                width: '100%',
-                                height: 48,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                fontSize: '1rem',
-                            }}
-                            startIcon={<RefreshIcon />}
-                        >
-                            Refresh Data
-                        </Button>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                        {/* Search Bar */}
-                        <TextField
-                            fullWidth
-                            label="Search Bookings"
-                            variant="outlined"
-                            value={searchQuery}
-                            onChange={handleSearchChange}
-                            sx={{
-                                height: 50,
-                                '& .MuiInputBase-root': {
-                                    height: '100%',
-                                },
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '8px',
-                                },
-                            }}
-                        />
-                    </Grid>
-
-                    {/* Last Refresh Time */}
+            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
+                <Typography variant="h4" align="center" gutterBottom color="primary">
+                    Admin - View All Bookings
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', gap: 2 }}>
                     {lastRefreshTime && (
-                        <Grid item xs={12}>
-                            <Typography variant="body2" color="textSecondary" align="center">
-                                Last refreshed at: {lastRefreshTime}
-                            </Typography>
-                        </Grid>
+                        <Typography variant="body2" color="textSecondary" align="center">
+                            Last refreshed at: {lastRefreshTime}
+                        </Typography>
                     )}
-                </Grid>
+                    <Icon
+                        component={RefreshIcon}
+                        onClick={handleRefreshData}
+                        sx={{
+                            cursor: 'pointer',
+                            color: 'primary.main',
+                            '&:hover': {
+                                color: 'primary.dark',
+                            },
+                        }}
+                    />
+
+                </Box>
             </Box>
 
             <Box sx={{ backgroundColor: '#fff', marginTop: 2 }}>
-                <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
+                <div className="ag-theme-alpine" style={{ height: '100%', width: '100%' }}>
                     <AgGridReact
-                        columnDefs={columnDefs}
+                        height="100%"
+                        headerHeight={48}
+                        rowHeight={48}
                         rowData={filteredData}
+                        columnDefs={columnDefs}
                         pagination={true}
                         paginationPageSize={10}
                         domLayout="autoHeight"
