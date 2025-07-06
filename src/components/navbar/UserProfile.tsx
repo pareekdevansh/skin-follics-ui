@@ -26,7 +26,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
                 break;
             case 'appointments':
                 // TODO: remove hardcoding later 
-                window.location.href = '/my-appointments/1';
+                window.location.href = '/my-appointments';
                 break;
             case 'logout':
                 console.log('User logged out');

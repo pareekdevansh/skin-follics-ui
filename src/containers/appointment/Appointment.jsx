@@ -16,7 +16,7 @@ import { CONTACT_PHONE_NUMBER } from "../../constants/contact-info";
 const AppointmentBookingForm = () => {
 	const [formData, setFormData] = useState({
 		fullName: "",
-		// phone: "",
+		phone: "",
 		treatmentCategory: "",
 		treatmentName: "",
 		appointmentDate: new Date(),
@@ -65,7 +65,7 @@ const AppointmentBookingForm = () => {
 	const validateForm = () => {
 		const newErrors = {};
 		if (!formData.fullName) newErrors.fullName = "Full name is required.";
-		// if (!formData.phone || formData.phone.length !== 10) newErrors.phone = "Phone number must be 10 digits.";
+		if (!formData.phone || formData.phone.length !== 10) newErrors.phone = "Phone number must be 10 digits.";
 		if (!formData.treatmentCategory) newErrors.treatmentCategory = "Please select a treatment category.";
 		if (!formData.appointmentDate) newErrors.appointmentDate = "Date is required.";
 		if (!formData.appointmentTime) newErrors.appointmentTime = "Time is required.";
@@ -93,15 +93,15 @@ const AppointmentBookingForm = () => {
 		console.log("hello")
 		const fetchTreatments = async () => {
 			try {
-				// const response = await treatmentService.getAllTreatments();
+				const response = await treatmentService.getAllTreatments();
 
 				const allServices = [...services, ...generalServices];
 				allServices.sort((a, b) => a.name.localeCompare(b.name));
 
-				const response = groupAndSortByCategory(allServices);
+				// const response = groupAndSortByCategory(allServices);
 
 
-				// console.log('response: ' + JSON.stringify(response));
+				console.log('response: ' + JSON.stringify(response));
 				const map = new Map();
 				const treatments = [];
 
@@ -145,31 +145,31 @@ const AppointmentBookingForm = () => {
 					appointmentDate: formattedDate,
 				};
 				console.log(JSON.stringify(form, null, 2));
-				// const response = await appointmentService.addAppointment(form);
-				// if (response && response.status === 200) {
-				// 	setSuccessDialogOpen(true);
-				// 	setFormData({
-				// 		fullName: "",
-				// 		// phone: "",
-				// 		treatmentCategory: "",
-				// 		treatmentName: "",
-				// 		appointmentDate: new Date(),
-				// 		appointmentTime: "",
-				// 	});
-				// 	// TODO: Navigate to booked treatments page
-				// }
+				const response = await appointmentService.addAppointment(form);
+				if (response && response.status === 200) {
+					setSuccessDialogOpen(true);
+					setFormData({
+						fullName: "",
+						phone: "",
+						treatmentCategory: "",
+						treatmentName: "",
+						appointmentDate: new Date(),
+						appointmentTime: "",
+					});
+					// TODO: Navigate to booked treatments page
+				}
 				// send whatsapp message with form data 
-				const message = `Appointment Request Details:\nName: ${form.fullName}\nCategory: ${form.treatmentCategory}\nTreatment: ${form.treatmentName}\nDate: ${form.appointmentDate}\nTime: ${form.appointmentTime}`;
-				const url = `https://api.whatsapp.com/send?phone=+91${CONTACT_PHONE_NUMBER}&text=${encodeURIComponent(message)}`;
-				setFormData({
-					fullName: "",
-					// phone: "",
-					treatmentCategory: "",
-					treatmentName: "",
-					appointmentDate: new Date(),
-					appointmentTime: "",
-				});
-				window.open(url, "_blank");
+				// const message = `Appointment Request Details:\nName: ${form.fullName}\nCategory: ${form.treatmentCategory}\nTreatment: ${form.treatmentName}\nDate: ${form.appointmentDate}\nTime: ${form.appointmentTime}`;
+				// const url = `https://api.whatsapp.com/send?phone=+91${CONTACT_PHONE_NUMBER}&text=${encodeURIComponent(message)}`;
+				// setFormData({
+				// 	fullName: "",
+				// 	// phone: "",
+				// 	treatmentCategory: "",
+				// 	treatmentName: "",
+				// 	appointmentDate: new Date(),
+				// 	appointmentTime: "",
+				// });
+				// window.open(url, "_blank");
 
 			} catch (error) {
 				console.error("Failed to create appointment:", error);
@@ -211,7 +211,7 @@ const AppointmentBookingForm = () => {
 							</Grid>
 
 							{/* Phone */}
-							{/* <Grid item xs={12}>
+							<Grid item xs={12}>
 								<TextField
 									label="Phone Number"
 									name="phone"
@@ -224,8 +224,8 @@ const AppointmentBookingForm = () => {
 									helperText={errors.phone}
 									fullWidth
 								/>
-							</Grid> */}
-
+							</Grid>
+							
 							{/* Treatment Category */}
 							<Grid item xs={12}>
 								<FormControl fullWidth>

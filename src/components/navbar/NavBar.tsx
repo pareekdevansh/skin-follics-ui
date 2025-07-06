@@ -151,9 +151,9 @@ const NavBar = () => {
                 </DesktopMenuContainer>
 
                 {/* User Profile Section */}
-                {/* <UserProfileContainer>
+                <UserProfileContainer>
                     {user.isAuthenticated && <UserProfile user={user} />}
-                </UserProfileContainer> */}
+                </UserProfileContainer>
             </Toolbar>
         </StyledAppBar>
     );

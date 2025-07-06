@@ -98,7 +98,7 @@ export const routes = [
         },
     },
     {
-        path : "/my-appointments/:userId",
+        path : "/my-appointments",
         component: MyAppointments,
         name: "My Appointments",
         seo: {
@@ -212,6 +212,11 @@ export const routes = [
         component: ManageAppointmentsAdmin,
         name: "Manage Appointments",
 
+    },
+    {
+        path: "/profile",
+        component: lazy(() => import("../containers/profile")),
+        name: "Profile"
     },
     {
         path: "*",

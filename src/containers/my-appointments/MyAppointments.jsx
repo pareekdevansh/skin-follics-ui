@@ -39,7 +39,9 @@ const columnDefs = [
 ];
 
 function MyAppointments() {
-  const { userId } = useParams();
+  // instead getting from params, fetch from redux store or context
+  // const userId = useSelector((state) => state.user.id);
+  const userId = 1;
   const [rowData, setRowData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
