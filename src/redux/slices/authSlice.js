@@ -1,16 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../api/axios'; 
+import authService from '../../services/api/authService';
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (credentials, thunkAPI) => {
     try {
-      const res = await api.post('/auth/login', credentials);
+      const res = await authService.login(credentials);
       
-      // store JWT in localStorage for persistence
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', res.token);
 
-      return res.data; // user info + token
+      return res; 
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || 'Login failed'
