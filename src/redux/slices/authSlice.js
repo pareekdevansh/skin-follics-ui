@@ -1,46 +1,62 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import api from '../api/axios'; 
+
+export const loginUser = createAsyncThunk(
+  'auth/loginUser',
+  async (credentials, thunkAPI) => {
+    try {
+      const res = await api.post('/auth/login', credentials);
+      
+      // store JWT in localStorage for persistence
+      localStorage.setItem('token', res.data.token);
+
+      return res.data; // user info + token
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Login failed'
+      );
+    }
+  }
+);
 
 const initialState = {
-    isAuthenticated: false,
-    user: null,
-    loading: false,
-    error: null,
+  isAuthenticated: false,
+  user: null,
+  loading: false,
+  error: null,
 };
 
 const authSlice = createSlice({
-    name: 'auth',
-    initialState,
-    reducers: {
-        loginRequest: (state) => {
-            state.loading = true;
-            state.error = null; // Reset error before each login attempt
-        },
-        loginSuccess: (state, action) => {
-            state.isAuthenticated = true;
-            state.user = action.payload;
-            state.loading = false;
-        },
-        loginFailure: (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        },
-        logout: (state) => {
-            state.isAuthenticated = false;
-            state.user = null;
-            state.error = null; // Reset error on logout
-        },
-        clearError: (state) => {
-            state.error = null;
-        },
+  name: 'auth',
+  initialState,
+  reducers: {
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.user = null;
+      state.error = null;
+      localStorage.removeItem('token'); // clear JWT
     },
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.isAuthenticated = true;
+        state.user = action.payload.user; // assume backend sends { user, token }
+        state.loading = false;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
-export const {
-    loginRequest,
-    loginSuccess,
-    loginFailure,
-    logout,
-    clearError,
-} = authSlice.actions;
-
+export const { logout, clearError } = authSlice.actions;
 export default authSlice.reducer;
